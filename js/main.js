@@ -24,7 +24,7 @@ window.onload=init;
 function init(){
 	canvas = new Element("canvas", {'id':'canvas','width':(SCREENW+'px'),'height':(SCREENH+'px')});
 	canvas.insert(document.body);
-	context = canvas.elem.getContext("2d"); 
+	context = canvas.elem.getContext("2d");
 	planets = [
 		new Planet(100000000, [0,0], [0,0], 'sun'),
 		new Planet(100000, [-300000,-200000], [0,1000], 'venus'),
@@ -87,7 +87,7 @@ function circle(x, y, r, color) {
 }
 
 function randomcolor(){
-	//return non-black html-color 
+	//return non-black html-color
 	var colorstr="#";
 	for(var i=0; i<3; i++){
 		var ran=Math.round(Math.random()*200)+55;

@@ -7,20 +7,20 @@ Ode={
 	//ode:function(func, low, high, initcond, steps){
 	//	return Ode.ode_(func, low, high, initcond, steps);
 	//},
-	
+
 	ode:function(func, low, high, initcond, steps){
 		var L=initcond.length;
 		var h=(high-low)/steps;
 		var j;
-		
+
 		for (j = 0; j<steps; ++j) {
 			Ode.integ_rk4(func, low, h, initcond, L);
 			low += h;
 		}
 		return initcond;
 	},
-	
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	//
 	integ_euler:function(func, t, h, values, L) {
 		var ms=func(t,values);
@@ -29,7 +29,7 @@ Ode={
 			values[i]+=h*ms[i];
 		}
 	},
-	// 
+	//
 	integ_rk2:function(func, t, h, values, L, dir) {
 		var k1=[];
 		var v_=[];

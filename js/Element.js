@@ -4,7 +4,7 @@ function Element(tag, attribs){
 	for(attrib in attribs){
 		this.elem.setAttribute(attrib, attribs[attrib]);
 	}
-	
+
 	this.insert=function(node){
 		node.appendChild(this.elem);
 	}
@@ -20,5 +20,4 @@ function Element(tag, attribs){
 	this.setContent=function(c){
 		this.elem.innerHTML=c;
 	}
-	
 }

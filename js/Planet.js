@@ -21,7 +21,7 @@ function Planet(mass, initpos, initdir, name){
 	this.v=initdir;
 	this.speed=Math.sqrt(this.v[0]*this.v[0]+this.v[1]*this.v[1]);
 	this.color=randomcolor();
-	
+
 	//init traces
 	for(var i=0; i<ntrace; i++){
 		trace[i]=[this.pos[0], this.pos[1]];
@@ -32,7 +32,7 @@ function Planet(mass, initpos, initdir, name){
 			lastv=[this.v[0],this.v[1]];
 			this.v=[res[2],res[3]];
 			this.pos=[res[0],res[1]];
-			
+
 			//stepsize control TODO!
 			var nspeed=Math.sqrt(this.v[0]*this.v[0]+this.v[1]*this.v[1]);
 			if(nspeed>0.1){ //floating point problem, mathematically not needed!
@@ -46,7 +46,7 @@ function Planet(mass, initpos, initdir, name){
 				this.steps=1;
 			}
 			this.speed=nspeed;
-			
+
 			this.x=this.pos[0]/posfac+posoffsetx;
 			this.y=this.pos[1]/posfac+posoffsety;
 		}
@@ -72,7 +72,7 @@ function Planet(mass, initpos, initdir, name){
 		context.strokeStyle="#999999";
 		context.beginPath();
 		context.moveTo(trace[pp1][0]/posfac+posoffsetx,trace[pp1][1]/posfac+posoffsety);
-		
+
 		for(var i=pp1+1; i<ntrace; i++){
 			context.lineTo(trace[i][0]/posfac+posoffsetx,trace[i][1]/posfac+posoffsety);
 		}
