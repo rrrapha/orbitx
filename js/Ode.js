@@ -9,8 +9,8 @@ Ode={
 	//},
 
 	ode:function(func, low, high, initcond, steps){
-		var L=initcond.length;
-		var h=(high-low)/steps;
+		const L=initcond.length;
+		const h=(high-low)/steps;
 		var j;
 
 		for (j = 0; j<steps; ++j) {
@@ -23,7 +23,7 @@ Ode={
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	//
 	integ_euler:function(func, t, h, values, L) {
-		var ms=func(t,values);
+		const ms=func(t,values);
 		var i;
 		for (i=0; i<L; i++) {
 			values[i]+=h*ms[i];
@@ -66,40 +66,40 @@ Ode={
 		}
 	},
 	integ_rk4:function(func, t, h, values, L) {
-		var k1=[];
-		var k2=[];
-		var k3=[];
-		var k4=[];
-		var k1v=[];
+		const k1=[];
+		const k2=[];
+		const k3=[];
+		const k4=[];
+		const k1v=[];
 		//var k2v=[];
 		//var k3v=[];
 		//var k4v=[];
 		var i;
 		var m=func(t,values);
-		var hdir=h;
-		var hdir2=hdir/2;
+		const hdir=h;
+		const hdir2=hdir/2;
 		for (i=0; i<L; i++) {
-			var k1i=hdir*m[i];
+			const k1i=hdir*m[i];
 			k1[i]=k1i;
 			k1v[i]=values[i]+k1i/2;
 		}
 		t+=hdir2;
 		m=func(t,k1v);
 		for (i=0; i<L; i++) {
-			var k2i=hdir*m[i];
+			const k2i=hdir*m[i];
 			k2[i]=k2i;
 			k1v[i]=values[i]+k2i/2;
 		}
 		m=func(t,k1v);
 		for (i=0; i<L; i++) {
-			var k3i=hdir*m[i];
+			const k3i=hdir*m[i];
 			k3[i]=k3i;
 			k1v[i]=values[i]+k3i;
 		}
 		t+=hdir2;
 		m=func(t,k1v);
 		for (i=0; i<L; i++) {
-			var k4i=hdir*m[i];
+			const k4i=hdir*m[i];
 			k4[i]=k4i;
 			//k1v[i]=values[i]+k4i;
 		}
