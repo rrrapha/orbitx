@@ -4,10 +4,10 @@ Planet class
 function Planet(mass, initpos, initdir, name){
 	var size;
 	var mass;
-	var ntrace=64;
+	const ntrace=64;
 	this.steps=1; //number of steps
-	var PI200=200/Math.PI; //optimize
-	var trace=new Array(ntrace);
+	const PI200=200/Math.PI; //optimize
+	const trace=new Array(ntrace);
 	var c=0;
 	var tracepos;
 	var lastv=[0,0];
@@ -36,9 +36,9 @@ function Planet(mass, initpos, initdir, name){
 			//stepsize control TODO!
 			var nspeed=Math.sqrt(this.v[0]*this.v[0]+this.v[1]*this.v[1]);
 			if(nspeed>0.1){ //floating point problem, mathematically not needed!
-				var skalarprod=this.v[0]*lastv[0]+this.v[1]*lastv[1];
-				var alphadiff=Math.acos(skalarprod/(nspeed*this.speed)); //todo: this is a bad hack! or rewrite min inline
-				var s = Math.floor(PI200*alphadiff);
+				const skalarprod=this.v[0]*lastv[0]+this.v[1]*lastv[1];
+				const alphadiff=Math.acos(skalarprod/(nspeed*this.speed)); //todo: this is a bad hack! or rewrite min inline
+				const s = Math.floor(PI200*alphadiff);
 				this.steps=(1>s)? 1.: s; //Math.max(1., 200*alphadiff/Math.PI)
 				this.steps=(18<this.steps)? 18: this.steps; //Math.min(14,steps)
 			}
@@ -68,7 +68,7 @@ function Planet(mass, initpos, initdir, name){
 
 	function drawlines(){
 		// draw traces
-		var pp1=(tracepos<ntrace-1)? tracepos+1: 0;
+		const pp1=(tracepos<ntrace-1)? tracepos+1: 0;
 		context.strokeStyle="#999999";
 		context.beginPath();
 		context.moveTo(trace[pp1][0]/posfac+posoffsetx,trace[pp1][1]/posfac+posoffsety);

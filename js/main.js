@@ -1,21 +1,21 @@
 //CONSTANTS
-var SCREENW=500;
-var SCREENH=500;
-var FRAMERATE=20;
-var posfac=2000;
-var zoom=1;
-var SIZEFAC=10;
-var unit_m=1000000; //meter
-var unit_s=3600;	//sec
-var G=((6.67428*Math.pow(10,-11)/Math.pow(unit_m,3)))*Math.pow(unit_s,2)*5.974*Math.pow(10,24);
+const SCREENW=500;
+const SCREENH=500;
+const FRAMERATE=20;
+const posfac=2000;
+const zoom=1;
+const SIZEFAC=10;
+const unit_m=1000000; //meter
+const unit_s=3600;	//sec
+const G=((6.67428*Math.pow(10,-11)/Math.pow(unit_m,3)))*Math.pow(unit_s,2)*5.974*Math.pow(10,24);
 
 //VARS
 var timer;
-var posoffsetx=SCREENW/2;
-var posoffsety=SCREENH/2;
+const posoffsetx=SCREENW/2;
+const posoffsety=SCREENH/2;
 var numplanets=0;
 var planets=[];
-var H=1; //integration stepsize (divided later)
+const H=1; //integration stepsize (divided later)
 var I;
 var context;
 var canvas;
@@ -39,18 +39,18 @@ function init(){
 function deriv(t, cond){
 	var a0=0;
 	var a1=0;
-	var cond0=cond[0];
-	var cond1=cond[1];
+	const cond0=cond[0];
+	const cond1=cond[1];
 	var k;
 	for(k=0; k<numplanets; k++){ //for each other planet
 		if(I!=k){
-			var p=planets[k];
-			var pos=p.pos;
-			var dist0=pos[0]-cond0;
-			var dist1=pos[1]-cond1;
-			var dist=dist0*dist0+dist1*dist1;
-			var dist_3=Math.sqrt(dist*dist*dist);
-			var F=p.mass/dist_3;
+			const p=planets[k];
+			const pos=p.pos;
+			const dist0=pos[0]-cond0;
+			const dist1=pos[1]-cond1;
+			const dist=dist0*dist0+dist1*dist1;
+			const dist_3=Math.sqrt(dist*dist*dist);
+			const F=p.mass/dist_3;
 			a0+=F*dist0;
 			a1+=F*dist1;
 		}
@@ -63,10 +63,10 @@ function updateplanets(){
 	if(H==0)
 		return;
 	context.clearRect(0, 0, SCREENW, SCREENH);
-	var res=new Array(numplanets);
+	const res=new Array(numplanets);
 	for(I=0; I<numplanets; ++I){ //I is global
-		var p=planets[I];
-		var steps=p.steps;
+		const p=planets[I];
+		const steps=p.steps;
 		res[I]=Ode.ode(deriv, 0, H, [p.pos[0],p.pos[1], p.v[0],p.v[1]], steps);
 	}
 	for(I=0; I<numplanets; ++I){ //I is global
@@ -76,7 +76,7 @@ function updateplanets(){
 }
 
 /////////////////////////////////////////////
-var PI2=Math.PI*2;
+const PI2=Math.PI*2;
 
 function circle(x, y, r, color) {
 	context.beginPath();
@@ -90,7 +90,7 @@ function randomcolor(){
 	//return non-black html-color
 	var colorstr="#";
 	for(var i=0; i<3; i++){
-		var ran=Math.round(Math.random()*200)+55;
+		const ran=Math.round(Math.random()*200)+55;
 		if(ran<16) {
 			colorstr+="0"+ran.toString(16);
 		}
@@ -104,8 +104,8 @@ function randomcolor(){
 var fps_time=new Date().getTime();
 function fps(){
 	//calculate current fps
-	var t=new Date().getTime();
-	var fps=Math.round(1000 / (t - fps_time));
+	const t=new Date().getTime();
+	const fps=Math.round(1000 / (t - fps_time));
 	fps_time=t;
 	//console.log(fps);
 }
