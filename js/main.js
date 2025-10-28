@@ -20,7 +20,7 @@ var I;
 var context;
 var canvas;
 
-window.onload=init;
+document.addEventListener("DOMContentLoaded", init);
 function init(){
 	canvas = new Element("canvas", {'id':'canvas','width':(SCREENW+'px'),'height':(SCREENH+'px')});
 	canvas.insert(document.body);
