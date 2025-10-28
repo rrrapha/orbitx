@@ -46,7 +46,7 @@ function deriv(t, cond) {
   const cond1 = cond[1];
   let k;
   for (k = 0; k < numPlanets; k++) {  // for each other planet
-    if (I != k) {
+    if (I !== k) {
       const p = planets[k];
       const pos = p.pos;
       const dist0 = pos[0] - cond0;
@@ -63,7 +63,7 @@ function deriv(t, cond) {
 
 function updatePlanets() {
   fps();
-  if (H == 0) return;
+  if (H === 0) return;
   context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   const res = new Array(numPlanets);
   for (I = 0; I < numPlanets; ++I) {  // I is global

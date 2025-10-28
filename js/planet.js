@@ -55,7 +55,7 @@ class Planet {
     }
     this.speed = newSpeed;
     this.count++;
-    if (this.count % 2 == 0) {
+    if (this.count % 2 === 0) {
       this.tracePos = (this.tracePos + 1) % nTrace;
       this.trace[this.tracePos] =
           [p0 / POSFAC + POS_OFFSET_X, p1 / POSFAC + POS_OFFSET_Y];
