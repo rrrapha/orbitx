@@ -1,19 +1,19 @@
 // CONSTANTS
-const SCREENW = 500;
-const SCREENH = 500;
+const SCREEN_WIDTH = 500;
+const SCREEN_HEIGHT = 500;
 const FRAMERATE = 20;
-const posfac = 2000;
-const zoom = 1;
+const POSFAC = 2000;
+const ZOOM = 1;
 const SIZEFAC = 10;
-const unit_m = 1000000;  // meter
-const unit_s = 3600;     // sec
-const G = ((6.67428 * Math.pow(10, -11) / Math.pow(unit_m, 3))) *
-    Math.pow(unit_s, 2) * 5.974 * Math.pow(10, 24);
+const UNIT_M = 1000000;  // meter
+const UNIT_S = 3600;     // sec
+const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
+    Math.pow(UNIT_S, 2) * 5.974 * Math.pow(10, 24);
 
 // VARS
 var timer;
-const posoffsetx = SCREENW / 2;
-const posoffsety = SCREENH / 2;
+const POS_OFFSET_X = SCREEN_WIDTH / 2;
+const POS_OFFSET_Y = SCREEN_HEIGHT / 2;
 var numplanets = 0;
 var planets = [];
 const H = 1;  // integration stepsize (divided later)
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', init);
 function init() {
   canvas = new Element(
       'canvas',
-      {'id': 'canvas', 'width': (SCREENW + 'px'), 'height': (SCREENH + 'px')});
+      {'id': 'canvas', 'width': (SCREEN_WIDTH + 'px'), 'height': (SCREEN_HEIGHT + 'px')});
   canvas.insert(document.body);
   context = canvas.elem.getContext('2d');
   planets = [
@@ -64,7 +64,7 @@ function deriv(t, cond) {
 function updateplanets() {
   fps();
   if (H == 0) return;
-  context.clearRect(0, 0, SCREENW, SCREENH);
+  context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   const res = new Array(numplanets);
   for (I = 0; I < numplanets; ++I) {  // I is global
     const p = planets[I];
@@ -73,7 +73,7 @@ function updateplanets() {
   }
   for (I = 0; I < numplanets; ++I) {  // I is global
     var p = planets[I];
-    p.domove(res[I]);
+    p.doMove(res[I]);
   }
 }
 

@@ -16,8 +16,8 @@ function Planet(mass, initpos, initdir, name) {
   this.mass = mass;
   this.size = (Math.pow(mass / ((4 / 3) * Math.PI), 1 / 3)) / SIZEFAC;
   this.pos = initpos;
-  this.x = initpos[0] / posfac + posoffsetx;
-  this.y = initpos[1] / posfac + posoffsety;
+  this.x = initpos[0] / POSFAC + POS_OFFSET_X;
+  this.y = initpos[1] / POSFAC + POS_OFFSET_Y;
   this.v = initdir;
   this.speed = Math.sqrt(this.v[0] * this.v[0] + this.v[1] * this.v[1]);
   this.color = randomcolor();
@@ -27,7 +27,7 @@ function Planet(mass, initpos, initdir, name) {
     trace[i] = [this.pos[0], this.pos[1]];
   }
 
-  this.domove = function(res) {
+  this.doMove = function(res) {
     if (!this.dragged) {
       lastv = [this.v[0], this.v[1]];
       this.v = [res[2], res[3]];
@@ -49,8 +49,8 @@ function Planet(mass, initpos, initdir, name) {
       }
       this.speed = nspeed;
 
-      this.x = this.pos[0] / posfac + posoffsetx;
-      this.y = this.pos[1] / posfac + posoffsety;
+      this.x = this.pos[0] / POSFAC + POS_OFFSET_X;
+      this.y = this.pos[1] / POSFAC + POS_OFFSET_Y;
     }
     c++;
     if (c % 2 == 0) {
@@ -74,22 +74,22 @@ function Planet(mass, initpos, initdir, name) {
     context.strokeStyle = '#999999';
     context.beginPath();
     context.moveTo(
-        trace[pp1][0] / posfac + posoffsetx,
-        trace[pp1][1] / posfac + posoffsety);
+        trace[pp1][0] / POSFAC + POS_OFFSET_X,
+        trace[pp1][1] / POSFAC + POS_OFFSET_Y);
 
     for (var i = pp1 + 1; i < ntrace; i++) {
       context.lineTo(
-          trace[i][0] / posfac + posoffsetx, trace[i][1] / posfac + posoffsety);
+          trace[i][0] / POSFAC + POS_OFFSET_X, trace[i][1] / POSFAC + POS_OFFSET_Y);
     }
     for (i = 0; i < pp1; i++) {
       context.lineTo(
-          trace[i][0] / posfac + posoffsetx, trace[i][1] / posfac + posoffsety);
+          trace[i][0] / POSFAC + POS_OFFSET_X, trace[i][1] / POSFAC + POS_OFFSET_Y);
     }
     context.stroke();
     context.closePath();
   }
 
-  this.getinfo = function() {
+  this.getInfo = function() {
     return this.name + ', ' + this.mass + 'em';
   }
 }
