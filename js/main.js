@@ -11,14 +11,14 @@ const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
     Math.pow(UNIT_S, 2) * 5.974 * Math.pow(10, 24);
 
 // VARS
-var timer;
+let timer;
 const POS_OFFSET_X = SCREEN_WIDTH / 2;
 const POS_OFFSET_Y = SCREEN_HEIGHT / 2;
-var numPlanets = 0;
-var planets = [];
+let numPlanets = 0;
+let planets = [];
 const H = 1;  // integration stepsize (divided later)
-var I;
-var context;
+let I;
+let context;
 
 document.addEventListener('DOMContentLoaded', init);
 function init() {
@@ -40,11 +40,11 @@ function init() {
 }
 
 function deriv(t, cond) {
-  var a0 = 0;
-  var a1 = 0;
+  let a0 = 0;
+  let a1 = 0;
   const cond0 = cond[0];
   const cond1 = cond[1];
-  var k;
+  let k;
   for (k = 0; k < numPlanets; k++) {  // for each other planet
     if (I != k) {
       const p = planets[k];
@@ -69,10 +69,11 @@ function updatePlanets() {
   for (I = 0; I < numPlanets; ++I) {  // I is global
     const p = planets[I];
     const steps = p.steps;
-    res[I] = Ode.ode(deriv, 0, H, [p.pos[0], p.pos[1], p.vel[0], p.vel[1]], steps);
+    res[I] =
+        Ode.ode(deriv, 0, H, [p.pos[0], p.pos[1], p.vel[0], p.vel[1]], steps);
   }
   for (I = 0; I < numPlanets; ++I) {  // I is global
-    var p = planets[I];
+    let p = planets[I];
     p.doMove(res[I]);
   }
 }
@@ -90,8 +91,8 @@ function circle(x, y, r, color) {
 
 function randomColor() {
   // return non-black html-color
-  var colorstr = '#';
-  for (var i = 0; i < 3; i++) {
+  let colorstr = '#';
+  for (let i = 0; i < 3; i++) {
     const ran = Math.round(Math.random() * 200) + 55;
     if (ran < 16) {
       colorstr += '0' + ran.toString(16);
@@ -102,7 +103,7 @@ function randomColor() {
   return colorstr;
 }
 
-var fpsTime = new Date().getTime();
+let fpsTime = new Date().getTime();
 function fps() {
   // calculate current fps
   const t = new Date().getTime();
