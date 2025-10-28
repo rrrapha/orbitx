@@ -19,15 +19,15 @@ var planets = [];
 const H = 1;  // integration stepsize (divided later)
 var I;
 var context;
-var canvas;
 
 document.addEventListener('DOMContentLoaded', init);
 function init() {
-  canvas = new Element(
-      'canvas',
-      {'id': 'canvas', 'width': (SCREEN_WIDTH + 'px'), 'height': (SCREEN_HEIGHT + 'px')});
-  canvas.insert(document.body);
-  context = canvas.elem.getContext('2d');
+  const canvas = document.createElement('canvas');
+  canvas.setAttribute('id', 'canvas');
+  canvas.setAttribute('width', SCREEN_WIDTH + 'px');
+  canvas.setAttribute('height', SCREEN_HEIGHT + 'px');
+  document.body.appendChild(canvas);
+  context = canvas.getContext('2d');
   planets = [
     new Planet(100000000, [0, 0], [0, 0], 'sun'),
     new Planet(100000, [-300000, -200000], [0, 1000], 'venus'),
