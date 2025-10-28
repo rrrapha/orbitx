@@ -1,111 +1,112 @@
-//CONSTANTS
-const SCREENW=500;
-const SCREENH=500;
-const FRAMERATE=20;
-const posfac=2000;
-const zoom=1;
-const SIZEFAC=10;
-const unit_m=1000000; //meter
-const unit_s=3600;	//sec
-const G=((6.67428*Math.pow(10,-11)/Math.pow(unit_m,3)))*Math.pow(unit_s,2)*5.974*Math.pow(10,24);
+// CONSTANTS
+const SCREENW = 500;
+const SCREENH = 500;
+const FRAMERATE = 20;
+const posfac = 2000;
+const zoom = 1;
+const SIZEFAC = 10;
+const unit_m = 1000000;  // meter
+const unit_s = 3600;     // sec
+const G = ((6.67428 * Math.pow(10, -11) / Math.pow(unit_m, 3))) *
+    Math.pow(unit_s, 2) * 5.974 * Math.pow(10, 24);
 
-//VARS
+// VARS
 var timer;
-const posoffsetx=SCREENW/2;
-const posoffsety=SCREENH/2;
-var numplanets=0;
-var planets=[];
-const H=1; //integration stepsize (divided later)
+const posoffsetx = SCREENW / 2;
+const posoffsety = SCREENH / 2;
+var numplanets = 0;
+var planets = [];
+const H = 1;  // integration stepsize (divided later)
 var I;
 var context;
 var canvas;
 
-document.addEventListener("DOMContentLoaded", init);
-function init(){
-	canvas = new Element("canvas", {'id':'canvas','width':(SCREENW+'px'),'height':(SCREENH+'px')});
-	canvas.insert(document.body);
-	context = canvas.elem.getContext("2d");
-	planets = [
-		new Planet(100000000, [0,0], [0,0], 'sun'),
-		new Planet(100000, [-300000,-200000], [0,1000], 'venus'),
-		new Planet(100000, [-100000,-100000], [0.1,1000], 'mars'),
-		new Planet(100000, [-100000,0], [0.1,1700], 'pluto'),
-		new Planet(2000000, [-180000,-100000], [0,1500], 'saturn')
-	];
-	numplanets = planets.length;
-	timer = setInterval(updateplanets, 1000 / FRAMERATE);
+document.addEventListener('DOMContentLoaded', init);
+function init() {
+  canvas = new Element(
+      'canvas',
+      {'id': 'canvas', 'width': (SCREENW + 'px'), 'height': (SCREENH + 'px')});
+  canvas.insert(document.body);
+  context = canvas.elem.getContext('2d');
+  planets = [
+    new Planet(100000000, [0, 0], [0, 0], 'sun'),
+    new Planet(100000, [-300000, -200000], [0, 1000], 'venus'),
+    new Planet(100000, [-100000, -100000], [0.1, 1000], 'mars'),
+    new Planet(100000, [-100000, 0], [0.1, 1700], 'pluto'),
+    new Planet(2000000, [-180000, -100000], [0, 1500], 'saturn')
+  ];
+  numplanets = planets.length;
+  timer = setInterval(updateplanets, 1000 / FRAMERATE);
 }
 
-function deriv(t, cond){
-	var a0=0;
-	var a1=0;
-	const cond0=cond[0];
-	const cond1=cond[1];
-	var k;
-	for(k=0; k<numplanets; k++){ //for each other planet
-		if(I!=k){
-			const p=planets[k];
-			const pos=p.pos;
-			const dist0=pos[0]-cond0;
-			const dist1=pos[1]-cond1;
-			const dist=dist0*dist0+dist1*dist1;
-			const dist_3=Math.sqrt(dist*dist*dist);
-			const F=p.mass/dist_3;
-			a0+=F*dist0;
-			a1+=F*dist1;
-		}
-	}
-	return [cond[2], cond[3], G*a0, G*a1];
+function deriv(t, cond) {
+  var a0 = 0;
+  var a1 = 0;
+  const cond0 = cond[0];
+  const cond1 = cond[1];
+  var k;
+  for (k = 0; k < numplanets; k++) {  // for each other planet
+    if (I != k) {
+      const p = planets[k];
+      const pos = p.pos;
+      const dist0 = pos[0] - cond0;
+      const dist1 = pos[1] - cond1;
+      const dist = dist0 * dist0 + dist1 * dist1;
+      const dist_3 = Math.sqrt(dist * dist * dist);
+      const F = p.mass / dist_3;
+      a0 += F * dist0;
+      a1 += F * dist1;
+    }
+  }
+  return [cond[2], cond[3], G * a0, G * a1];
 }
 
-function updateplanets(){
-	fps();
-	if(H==0)
-		return;
-	context.clearRect(0, 0, SCREENW, SCREENH);
-	const res=new Array(numplanets);
-	for(I=0; I<numplanets; ++I){ //I is global
-		const p=planets[I];
-		const steps=p.steps;
-		res[I]=Ode.ode(deriv, 0, H, [p.pos[0],p.pos[1], p.v[0],p.v[1]], steps);
-	}
-	for(I=0; I<numplanets; ++I){ //I is global
-		var p=planets[I];
-		p.domove(res[I]);
-	}
+function updateplanets() {
+  fps();
+  if (H == 0) return;
+  context.clearRect(0, 0, SCREENW, SCREENH);
+  const res = new Array(numplanets);
+  for (I = 0; I < numplanets; ++I) {  // I is global
+    const p = planets[I];
+    const steps = p.steps;
+    res[I] = Ode.ode(deriv, 0, H, [p.pos[0], p.pos[1], p.v[0], p.v[1]], steps);
+  }
+  for (I = 0; I < numplanets; ++I) {  // I is global
+    var p = planets[I];
+    p.domove(res[I]);
+  }
 }
 
 /////////////////////////////////////////////
-const PI2=Math.PI*2;
+const PI2 = Math.PI * 2;
 
 function circle(x, y, r, color) {
-	context.beginPath();
-	context.arc(x, y, r, 0, PI2, true);
-	context.closePath();
-	context.fillStyle = color;
-	context.fill();
+  context.beginPath();
+  context.arc(x, y, r, 0, PI2, true);
+  context.closePath();
+  context.fillStyle = color;
+  context.fill();
 }
 
-function randomcolor(){
-	//return non-black html-color
-	var colorstr="#";
-	for(var i=0; i<3; i++){
-		const ran=Math.round(Math.random()*200)+55;
-		if(ran<16) {
-			colorstr+="0"+ran.toString(16);
-		}
-		else{
-			colorstr+=ran.toString(16);
-		}
-	}
-	return colorstr;
+function randomcolor() {
+  // return non-black html-color
+  var colorstr = '#';
+  for (var i = 0; i < 3; i++) {
+    const ran = Math.round(Math.random() * 200) + 55;
+    if (ran < 16) {
+      colorstr += '0' + ran.toString(16);
+    } else {
+      colorstr += ran.toString(16);
+    }
+  }
+  return colorstr;
 }
 
-var fps_time=new Date().getTime();
-function fps(){
-	//calculate current fps
-	const t=new Date().getTime();
-	const fps=Math.round(1000 / (t - fps_time));
-	fps_time=t;
-	//console.log(fps);
+var fps_time = new Date().getTime();
+function fps() {
+  // calculate current fps
+  const t = new Date().getTime();
+  const fps = Math.round(1000 / (t - fps_time));
+  fps_time = t;
+  // console.log(fps);
 }
