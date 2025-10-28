@@ -1,95 +1,80 @@
-﻿/*
-Planet class
-*/
-function Planet(mass, initpos, initdir, name) {
-  var size;
-  var mass;
-  const ntrace = 64;
-  this.steps = 1;               // number of steps
-  const PI200 = 200 / Math.PI;  // optimize
-  const trace = new Array(ntrace);
-  var c = 0;
-  var tracepos;
-  var lastv = [0, 0];
-  this.name = name;
-  this.dragged = false;
-  this.mass = mass;
-  this.size = (Math.pow(mass / ((4 / 3) * Math.PI), 1 / 3)) / SIZEFAC;
-  this.pos = initpos;
-  this.x = initpos[0] / POSFAC + POS_OFFSET_X;
-  this.y = initpos[1] / POSFAC + POS_OFFSET_Y;
-  this.v = initdir;
-  this.speed = Math.sqrt(this.v[0] * this.v[0] + this.v[1] * this.v[1]);
-  this.color = randomcolor();
-
-  // init traces
-  for (var i = 0; i < ntrace; i++) {
-    trace[i] = [this.pos[0], this.pos[1]];
+﻿const nTrace = 64;
+const PI200 = 200 / Math.PI;
+class Planet {
+  mass;
+  size;
+  trace = new Array(nTrace);
+  steps = 1;  // number of steps
+  count = 0;
+  tracePos = 0;
+  pos;
+  v;
+  speed;
+  color;
+  constructor(mass, initpos, initdir, name) {
+    this.mass = mass;
+    this.pos = initpos;
+    this.v = initdir;
+    this.name = name;
+    this.speed = Math.sqrt(initdir[0] * initdir[0] + initdir[1] * initdir[1]);
+    this.color = randomcolor();
+    this.size = (Math.pow(mass / ((4 / 3) * Math.PI), 1 / 3)) / SIZEFAC;
+    for (let i = 0; i < nTrace; i++) {
+      this.trace[i] = [
+        initpos[0] / POSFAC + POS_OFFSET_X, initpos[1] / POSFAC + POS_OFFSET_Y
+      ];
+    }
   }
-
-  this.doMove = function(res) {
-    if (!this.dragged) {
-      lastv = [this.v[0], this.v[1]];
-      this.v = [res[2], res[3]];
-      this.pos = [res[0], res[1]];
-
-      // stepsize control TODO!
-      var nspeed = Math.sqrt(this.v[0] * this.v[0] + this.v[1] * this.v[1]);
-      if (nspeed > 0.1) {  // floating point problem, mathematically not needed!
-        const skalarprod = this.v[0] * lastv[0] + this.v[1] * lastv[1];
-        const alphadiff = Math.acos(
-            skalarprod /
-            (nspeed *
-             this.speed));  // todo: this is a bad hack! or rewrite min inline
-        const s = Math.floor(PI200 * alphadiff);
-        this.steps = (1 > s) ? 1. : s;  // Math.max(1., 200*alphadiff/Math.PI)
-        this.steps = (18 < this.steps) ? 18 : this.steps;  // Math.min(14,steps)
-      } else {
-        this.steps = 1;
-      }
-      this.speed = nspeed;
-
-      this.x = this.pos[0] / POSFAC + POS_OFFSET_X;
-      this.y = this.pos[1] / POSFAC + POS_OFFSET_Y;
-    }
-    c++;
-    if (c % 2 == 0) {
-      tracepos = (c / 2) % ntrace;
-      trace[tracepos] = [this.pos[0], this.pos[1]];
-    }
-    circle(this.x, this.y, this.size, this.color);
-    drawlines();
-  };
-  this.move = function(x, y) {
+  getInfo() {
+    return this.name + ', ' + this.mass + 'em';
+  }
+  move(x, y) {
     // move planet to pixel
-    this.pos = [(x - posoffsetx) * posfac, (y - posoffsety) * posfac];
+    this.pos = [(x - POS_OFFSET_X) * POSFAC, (y - POS_OFFSET_Y) * POSFAC];
     this.v = [0, 0];
-    this.x = x;
-    this.y = y;
+    this.speed = 0;
   };
+  doMove([p0, p1, v0, v1]) {
+    const lastVel = [...this.v];
+    this.v = [v0, v1];
+    this.pos = [p0, p1];
 
-  function drawlines() {
+    // stepsize control TODO!
+    const newSpeed = Math.sqrt(v0 * v0 + v1 * v1);
+    if (newSpeed > 0.1) {  // floating point problem, mathematically not needed!
+      const dotProduct = v0 * lastVel[0] + v1 * lastVel[1];
+      const alphaDiff = Math.acos(
+          dotProduct /
+          (newSpeed *
+           this.speed));  // todo: this is a bad hack! or rewrite min inline
+      const s = Math.floor(PI200 * alphaDiff);
+      this.steps = (1 > s) ? 1. : s;  // Math.max(1., 200*alphaDiff/Math.PI)
+      this.steps = (18 < this.steps) ? 18 : this.steps;  // Math.min(18,steps)
+    } else {
+      this.steps = 1;
+    }
+    this.speed = newSpeed;
+    this.count++;
+    if (this.count % 2 == 0) {
+      this.tracePos = (this.tracePos + 1) % nTrace;
+      this.trace[this.tracePos] =
+          [p0 / POSFAC + POS_OFFSET_X, p1 / POSFAC + POS_OFFSET_Y];
+    }
+    circle(
+        p0 / POSFAC + POS_OFFSET_X, p1 / POSFAC + POS_OFFSET_Y, this.size,
+        this.color);
     // draw traces
-    const pp1 = (tracepos < ntrace - 1) ? tracepos + 1 : 0;
+    const pp1 = (this.tracePos < nTrace - 1) ? this.tracePos + 1 : 0;
     context.strokeStyle = '#999999';
     context.beginPath();
-    context.moveTo(
-        trace[pp1][0] / POSFAC + POS_OFFSET_X,
-        trace[pp1][1] / POSFAC + POS_OFFSET_Y);
-
-    for (var i = pp1 + 1; i < ntrace; i++) {
-      context.lineTo(
-          trace[i][0] / POSFAC + POS_OFFSET_X, trace[i][1] / POSFAC + POS_OFFSET_Y);
+    context.moveTo(this.trace[pp1][0], this.trace[pp1][1]);
+    for (let i = pp1 + 1; i < nTrace; i++) {
+      context.lineTo(this.trace[i][0], this.trace[i][1]);
     }
-    for (i = 0; i < pp1; i++) {
-      context.lineTo(
-          trace[i][0] / POSFAC + POS_OFFSET_X, trace[i][1] / POSFAC + POS_OFFSET_Y);
+    for (let i = 0; i < pp1; i++) {
+      context.lineTo(this.trace[i][0], this.trace[i][1]);
     }
     context.stroke();
     context.closePath();
-  }
-
-  this.getInfo = function() {
-    return this.name + ', ' + this.mass + 'em';
   }
 }
