@@ -8,16 +8,16 @@ class Planet {
   count = 0;
   tracePos = 0;
   pos;
-  v;
+  vel;
   speed;
   color;
   constructor(mass, initpos, initdir, name) {
     this.mass = mass;
     this.pos = initpos;
-    this.v = initdir;
+    this.vel = initdir;
     this.name = name;
     this.speed = Math.sqrt(initdir[0] * initdir[0] + initdir[1] * initdir[1]);
-    this.color = randomcolor();
+    this.color = randomColor();
     this.size = (Math.pow(mass / ((4 / 3) * Math.PI), 1 / 3)) / SIZEFAC;
     for (let i = 0; i < nTrace; i++) {
       this.trace[i] = [
@@ -31,12 +31,12 @@ class Planet {
   move(x, y) {
     // move planet to pixel
     this.pos = [(x - POS_OFFSET_X) * POSFAC, (y - POS_OFFSET_Y) * POSFAC];
-    this.v = [0, 0];
+    this.vel = [0, 0];
     this.speed = 0;
   };
   doMove([p0, p1, v0, v1]) {
-    const lastVel = [...this.v];
-    this.v = [v0, v1];
+    const lastVel = [...this.vel];
+    this.vel = [v0, v1];
     this.pos = [p0, p1];
 
     // stepsize control TODO!

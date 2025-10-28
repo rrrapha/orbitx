@@ -14,7 +14,7 @@ const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
 var timer;
 const POS_OFFSET_X = SCREEN_WIDTH / 2;
 const POS_OFFSET_Y = SCREEN_HEIGHT / 2;
-var numplanets = 0;
+var numPlanets = 0;
 var planets = [];
 const H = 1;  // integration stepsize (divided later)
 var I;
@@ -35,8 +35,8 @@ function init() {
     new Planet(100000, [-100000, 0], [0.1, 1700], 'pluto'),
     new Planet(2000000, [-180000, -100000], [0, 1500], 'saturn')
   ];
-  numplanets = planets.length;
-  timer = setInterval(updateplanets, 1000 / FRAMERATE);
+  numPlanets = planets.length;
+  timer = setInterval(updatePlanets, 1000 / FRAMERATE);
 }
 
 function deriv(t, cond) {
@@ -45,7 +45,7 @@ function deriv(t, cond) {
   const cond0 = cond[0];
   const cond1 = cond[1];
   var k;
-  for (k = 0; k < numplanets; k++) {  // for each other planet
+  for (k = 0; k < numPlanets; k++) {  // for each other planet
     if (I != k) {
       const p = planets[k];
       const pos = p.pos;
@@ -61,17 +61,17 @@ function deriv(t, cond) {
   return [cond[2], cond[3], G * a0, G * a1];
 }
 
-function updateplanets() {
+function updatePlanets() {
   fps();
   if (H == 0) return;
   context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-  const res = new Array(numplanets);
-  for (I = 0; I < numplanets; ++I) {  // I is global
+  const res = new Array(numPlanets);
+  for (I = 0; I < numPlanets; ++I) {  // I is global
     const p = planets[I];
     const steps = p.steps;
-    res[I] = Ode.ode(deriv, 0, H, [p.pos[0], p.pos[1], p.v[0], p.v[1]], steps);
+    res[I] = Ode.ode(deriv, 0, H, [p.pos[0], p.pos[1], p.vel[0], p.vel[1]], steps);
   }
-  for (I = 0; I < numplanets; ++I) {  // I is global
+  for (I = 0; I < numPlanets; ++I) {  // I is global
     var p = planets[I];
     p.doMove(res[I]);
   }
@@ -88,7 +88,7 @@ function circle(x, y, r, color) {
   context.fill();
 }
 
-function randomcolor() {
+function randomColor() {
   // return non-black html-color
   var colorstr = '#';
   for (var i = 0; i < 3; i++) {
@@ -102,11 +102,11 @@ function randomcolor() {
   return colorstr;
 }
 
-var fps_time = new Date().getTime();
+var fpsTime = new Date().getTime();
 function fps() {
   // calculate current fps
   const t = new Date().getTime();
-  const fps = Math.round(1000 / (t - fps_time));
-  fps_time = t;
+  const fps = Math.round(1000 / (t - fpsTime));
+  fpsTime = t;
   // console.log(fps);
 }
