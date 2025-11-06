@@ -92,11 +92,7 @@ function randomColor() {
   let colorstr = '#';
   for (let i = 0; i < 3; i++) {
     const ran = Math.round(Math.random() * 200) + 55;
-    if (ran < 16) {
-      colorstr += '0' + ran.toString(16);
-    } else {
-      colorstr += ran.toString(16);
-    }
+    colorstr += ran.toString(16);
   }
   return colorstr;
 }
