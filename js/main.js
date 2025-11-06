@@ -23,11 +23,9 @@ let context;
 
 document.addEventListener('DOMContentLoaded', init);
 function init() {
-  const canvas = document.createElement('canvas');
-  canvas.setAttribute('id', 'canvas');
+  const canvas = document.getElementById('canvas');
   canvas.setAttribute('width', SCREEN_WIDTH + 'px');
   canvas.setAttribute('height', SCREEN_HEIGHT + 'px');
-  document.body.appendChild(canvas);
   context = canvas.getContext('2d');
   planets = [
     new Planet(100000000, [0, 0], [0, 0], 'sun'),
