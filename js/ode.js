@@ -3,7 +3,7 @@
  *matlab style ode-functions M[row][col]
  */
 
-const Ode = {
+export const Ode = {
   algorithm: null,
   // ode:function(func, low, high, initcond, steps){
   //    return Ode.ode_(func, low, high, initcond, steps);

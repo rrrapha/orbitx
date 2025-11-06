@@ -1,11 +1,11 @@
 'use strict';
+
+import {Planet} from './planet.js';
+import {Ode} from './ode.js';
+import {SCREEN_WIDTH, SCREEN_HEIGHT, setContext, getContext} from './globals.js';
+
 // CONSTANTS
-const SCREEN_WIDTH = 500;
-const SCREEN_HEIGHT = 500;
 const FRAMERATE = 20;
-const POSFAC = 2000;
-const ZOOM = 1;
-const SIZEFAC = 10;
 const UNIT_M = 1000000;  // meter
 const UNIT_S = 3600;     // sec
 const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
@@ -13,13 +13,10 @@ const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
 
 // VARS
 let timer;
-const POS_OFFSET_X = SCREEN_WIDTH / 2;
-const POS_OFFSET_Y = SCREEN_HEIGHT / 2;
 let numPlanets = 0;
 let planets = [];
 const H = 1;  // integration stepsize (divided later)
 let I;
-let context;
 let fpsElement;
 
 document.addEventListener('DOMContentLoaded', init);
@@ -27,7 +24,7 @@ function init() {
   const canvas = document.getElementById('canvas');
   canvas.setAttribute('width', SCREEN_WIDTH + 'px');
   canvas.setAttribute('height', SCREEN_HEIGHT + 'px');
-  context = canvas.getContext('2d');
+  setContext(canvas.getContext('2d'));
   fpsElement = document.getElementById('fps');
   planets = [
     new Planet(100000000, [0, 0], [0, 0], 'sun'),
@@ -64,6 +61,7 @@ function deriv(t, cond) {
 function updatePlanets() {
   fps();
   if (H === 0) return;
+  const context = getContext();
   context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   const res = new Array(numPlanets);
   for (I = 0; I < numPlanets; ++I) {  // I is global
@@ -75,27 +73,6 @@ function updatePlanets() {
   for (I = 0; I < numPlanets; ++I) {  // I is global
     planets[I].doMove(res[I]);
   }
-}
-
-/////////////////////////////////////////////
-const PI2 = Math.PI * 2;
-
-function circle(x, y, r, color) {
-  context.beginPath();
-  context.arc(x, y, r, 0, PI2, true);
-  context.closePath();
-  context.fillStyle = color;
-  context.fill();
-}
-
-function randomColor() {
-  // return non-black html-color
-  let colorstr = '#';
-  for (let i = 0; i < 3; i++) {
-    const ran = Math.round(Math.random() * 200) + 55;
-    colorstr += ran.toString(16);
-  }
-  return colorstr;
 }
 
 let fpsTime = new Date().getTime();

@@ -1,4 +1,10 @@
 'use strict';
+
+import {circle, randomColor} from './util.js';
+import {POSFAC, SIZEFAC, POS_OFFSET_X, POS_OFFSET_Y, getContext} from './globals.js';
+
+export {Planet};
+
 const nTrace = 64;
 const PI200 = 200 / Math.PI;
 class Planet {
@@ -70,6 +76,7 @@ class Planet {
         this.color);
     // draw traces
     const pp1 = (this.tracePos < nTrace - 1) ? this.tracePos + 1 : 0;
+    const context = getContext();
     context.strokeStyle = '#999999';
     context.beginPath();
     context.moveTo(this.trace[pp1][0], this.trace[pp1][1]);
