@@ -20,6 +20,7 @@ let planets = [];
 const H = 1;  // integration stepsize (divided later)
 let I;
 let context;
+let fpsElement;
 
 document.addEventListener('DOMContentLoaded', init);
 function init() {
@@ -27,6 +28,7 @@ function init() {
   canvas.setAttribute('width', SCREEN_WIDTH + 'px');
   canvas.setAttribute('height', SCREEN_HEIGHT + 'px');
   context = canvas.getContext('2d');
+  fpsElement = document.getElementById('fps');
   planets = [
     new Planet(100000000, [0, 0], [0, 0], 'sun'),
     new Planet(100000, [-300000, -200000], [0, 1000], 'venus'),
@@ -102,5 +104,6 @@ function fps() {
   const t = new Date().getTime();
   const fps = Math.round(1000 / (t - fpsTime));
   fpsTime = t;
+  fpsElement.textContent = fps;
   // console.log(fps);
 }
