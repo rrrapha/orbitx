@@ -1,4 +1,4 @@
-﻿/*
+/*
  *matlab style ode-functions M[row][col]
  */
 
