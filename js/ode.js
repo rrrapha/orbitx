@@ -27,32 +27,32 @@ Ode = {
   },
   //
   integ_rk2: function(func, t, h, values, L, dir) {
-    let k1 = [];
-    let v_ = [];
+    const k1 = [];
+    const v_ = [];
     let m = func(t, values);
-    let hdir = h * dir;
+    const hdir = h * dir;
     for (let i = 0; i < L; i++) {
-      let k1i = hdir * m[i];
+      const k1i = hdir * m[i];
       k1[i] = k1i;
       v_[i] = values[i] + k1i;
     }
     t += hdir;
     m = func(t, v_);
     for (let i = 0; i < L; i++) {
-      let k2i = hdir * m[i];
+      const k2i = hdir * m[i];
       values[i] += (k1[i] + k2i) / 2;
     }
   },
   integ_rk2_heun: function(func, t, h, values, L, dir) {
-    let predict = [];
-    let m1 = func(t, values);
-    let hdir = h * dir;
-    let hdir2 = hdir / 2;
+    const predict = [];
+    const m1 = func(t, values);
+    const hdir = h * dir;
+    const hdir2 = hdir / 2;
     for (let i = 0; i < L; i++) {
       predict[i] = values[i] + h * m1[i];
     }
     t += hdir;
-    let m2 = func(t, predict);
+    const m2 = func(t, predict);
     for (let i = 0; i < L; i++) {
       values[i] += hdir2 * (m1[i] + m2[i]);
     }
