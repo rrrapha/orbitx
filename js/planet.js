@@ -11,6 +11,7 @@ class Planet {
   vel;
   speed;
   color;
+
   constructor(mass, initpos, initdir, name) {
     this.mass = mass;
     this.pos = initpos;
@@ -25,15 +26,18 @@ class Planet {
       ];
     }
   }
+
   getInfo() {
     return this.name + ', ' + this.mass + 'em';
   }
+
   move(x, y) {
     // move planet to pixel
     this.pos = [(x - POS_OFFSET_X) * POSFAC, (y - POS_OFFSET_Y) * POSFAC];
     this.vel = [0, 0];
     this.speed = 0;
-  };
+  }
+
   doMove([p0, p1, v0, v1]) {
     const lastVel = [...this.vel];
     this.vel = [v0, v1];

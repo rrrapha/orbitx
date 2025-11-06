@@ -44,16 +44,15 @@ function deriv(t, cond) {
   let a1 = 0;
   const cond0 = cond[0];
   const cond1 = cond[1];
-  let k;
-  for (k = 0; k < numPlanets; k++) {  // for each other planet
+  for (let k = 0; k < numPlanets; k++) {  // for each other planet
     if (I !== k) {
       const p = planets[k];
       const pos = p.pos;
       const dist0 = pos[0] - cond0;
       const dist1 = pos[1] - cond1;
       const dist = dist0 * dist0 + dist1 * dist1;
-      const dist_3 = Math.sqrt(dist * dist * dist);
-      const F = p.mass / dist_3;
+      const dist3 = Math.sqrt(dist * dist * dist);
+      const F = p.mass / dist3;
       a0 += F * dist0;
       a1 += F * dist1;
     }
@@ -73,8 +72,7 @@ function updatePlanets() {
         Ode.ode(deriv, 0, H, [p.pos[0], p.pos[1], p.vel[0], p.vel[1]], steps);
   }
   for (I = 0; I < numPlanets; ++I) {  // I is global
-    let p = planets[I];
-    p.doMove(res[I]);
+    planets[I].doMove(res[I]);
   }
 }
 
