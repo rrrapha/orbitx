@@ -52,7 +52,7 @@ class Planet {
           (newSpeed *
            this.speed));  // todo: this is a bad hack! or rewrite min inline
       const s = Math.floor(PI200 * alphaDiff);
-      this.steps = (1 > s) ? 1. : s;  // Math.max(1., 200*alphaDiff/Math.PI)
+      this.steps = (1 > s) ? 1 : s;  // Math.max(1, 200*alphaDiff/Math.PI)
       this.steps = (18 < this.steps) ? 18 : this.steps;  // Math.min(18,steps)
     } else {
       this.steps = 1;
