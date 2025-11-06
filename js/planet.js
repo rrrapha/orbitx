@@ -1,3 +1,4 @@
+'use strict';
 const nTrace = 64;
 const PI200 = 200 / Math.PI;
 class Planet {

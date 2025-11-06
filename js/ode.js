@@ -1,8 +1,9 @@
+'use strict';
 /*
  *matlab style ode-functions M[row][col]
  */
 
-Ode = {
+const Ode = {
   algorithm: null,
   // ode:function(func, low, high, initcond, steps){
   //    return Ode.ode_(func, low, high, initcond, steps);

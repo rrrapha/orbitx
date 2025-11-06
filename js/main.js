@@ -1,3 +1,4 @@
+'use strict';
 // CONSTANTS
 const SCREEN_WIDTH = 500;
 const SCREEN_HEIGHT = 500;
