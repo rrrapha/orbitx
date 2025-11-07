@@ -15,7 +15,6 @@ const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
 let timer;
 let planets = [];
 const H = 1;  // integration stepsize (divided later)
-let I;
 let fpsElement;
 
 document.addEventListener('DOMContentLoaded', init);
@@ -43,41 +42,41 @@ function init() {
   timer = setInterval(updatePlanets, 1000 / FRAMERATE);
 }
 
-function deriv(t, cond) {
-  let a0 = 0;
-  let a1 = 0;
-  const cond0 = cond[0];
-  const cond1 = cond[1];
-  for (let k = 0; k < planets.length; k++) {  // for each other planet
-    if (I !== k) {
-      const p = planets[k];
-      const pos = p.pos;
-      const dist0 = pos[0] - cond0;
-      const dist1 = pos[1] - cond1;
-      const dist = dist0 * dist0 + dist1 * dist1;
-      const dist3 = Math.sqrt(dist * dist * dist);
-      const F = p.mass / dist3;
-      a0 += F * dist0;
-      a1 += F * dist1;
-    }
-  }
-  return [cond[2], cond[3], G * a0, G * a1];
-}
-
 function updatePlanets() {
   fps();
   if (H === 0) return;
   const context = getContext();
   context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   const res = new Array(planets.length);
-  for (I = 0; I < planets.length; ++I) {  // I is global
-    const p = planets[I];
+  for (let i = 0; i < planets.length; ++i) {
+    function deriv(t, cond) {
+      let a0 = 0;
+      let a1 = 0;
+      const cond0 = cond[0];
+      const cond1 = cond[1];
+      for (let k = 0; k < planets.length; k++) {  // for each other planet
+        if (i !== k) {
+          const p = planets[k];
+          const pos = p.pos;
+          const dist0 = pos[0] - cond0;
+          const dist1 = pos[1] - cond1;
+          const dist = dist0 * dist0 + dist1 * dist1;
+          const dist3 = Math.sqrt(dist * dist * dist);
+          const F = p.mass / dist3;
+          a0 += F * dist0;
+          a1 += F * dist1;
+        }
+      }
+      return [cond[2], cond[3], G * a0, G * a1];
+    }
+
+    const p = planets[i];
     const steps = p.steps;
-    res[I] =
+    res[i] =
         Ode.ode(deriv, 0, H, [p.pos[0], p.pos[1], p.vel[0], p.vel[1]], steps);
   }
-  for (I = 0; I < planets.length; ++I) {  // I is global
-    planets[I].doMove(res[I]);
+  for (let i = 0; i < planets.length; ++i) {
+    planets[i].doMove(res[i]);
   }
 }
 
