@@ -13,7 +13,6 @@ const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
 
 // VARS
 let timer;
-let numPlanets = 0;
 let planets = [];
 const H = 1;  // integration stepsize (divided later)
 let I;
@@ -32,7 +31,6 @@ function init() {
         .then((json) => {
           planets = json.map(
               ({mass, pos, vel, name}) => new Planet(mass, pos, vel, name));
-          numPlanets = planets.length;
         });
   });
   planets = [
@@ -42,7 +40,6 @@ function init() {
     new Planet(100000, [-100000, 0], [0.1, 1700], 'pluto'),
     new Planet(2000000, [-180000, -100000], [0, 1500], 'saturn')
   ];
-  numPlanets = planets.length;
   timer = setInterval(updatePlanets, 1000 / FRAMERATE);
 }
 
@@ -51,7 +48,7 @@ function deriv(t, cond) {
   let a1 = 0;
   const cond0 = cond[0];
   const cond1 = cond[1];
-  for (let k = 0; k < numPlanets; k++) {  // for each other planet
+  for (let k = 0; k < planets.length; k++) {  // for each other planet
     if (I !== k) {
       const p = planets[k];
       const pos = p.pos;
@@ -72,14 +69,14 @@ function updatePlanets() {
   if (H === 0) return;
   const context = getContext();
   context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-  const res = new Array(numPlanets);
-  for (I = 0; I < numPlanets; ++I) {  // I is global
+  const res = new Array(planets.length);
+  for (I = 0; I < planets.length; ++I) {  // I is global
     const p = planets[I];
     const steps = p.steps;
     res[I] =
         Ode.ode(deriv, 0, H, [p.pos[0], p.pos[1], p.vel[0], p.vel[1]], steps);
   }
-  for (I = 0; I < numPlanets; ++I) {  // I is global
+  for (I = 0; I < planets.length; ++I) {  // I is global
     planets[I].doMove(res[I]);
   }
 }
