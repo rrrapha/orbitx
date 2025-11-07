@@ -4,6 +4,5 @@ body{
 	padding:0px;
 }
 #canvas{
-	position:absolute;
 	border:1px solid black;
 }

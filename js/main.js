@@ -26,6 +26,15 @@ function init() {
   canvas.setAttribute('height', SCREEN_HEIGHT + 'px');
   setContext(canvas.getContext('2d'));
   fpsElement = document.getElementById('fps');
+  document.getElementById('presets').addEventListener('change', (event) => {
+    fetch(event.target.value)
+        .then((response) => response.json())
+        .then((json) => {
+          planets = json.map(
+              ({mass, pos, vel, name}) => new Planet(mass, pos, vel, name));
+          numPlanets = planets.length;
+        });
+  });
   planets = [
     new Planet(100000000, [0, 0], [0, 0], 'sun'),
     new Planet(100000, [-300000, -200000], [0, 1000], 'venus'),
