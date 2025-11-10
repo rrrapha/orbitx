@@ -17,6 +17,13 @@ let planets = [];
 const H = 1;  // integration stepsize (divided later)
 let fpsElement;
 
+function loadPreset(preset) {
+  fetch(preset).then((response) => response.json()).then((json) => {
+    planets =
+        json.map(({mass, pos, vel, name}) => new Planet(mass, pos, vel, name));
+  });
+}
+
 document.addEventListener('DOMContentLoaded', init);
 function init() {
   const canvas = document.getElementById('canvas');
@@ -25,20 +32,9 @@ function init() {
   setContext(canvas.getContext('2d'));
   fpsElement = document.getElementById('fps');
   document.getElementById('presets').addEventListener('change', (event) => {
-    fetch(event.target.value)
-        .then((response) => response.json())
-        .then((json) => {
-          planets = json.map(
-              ({mass, pos, vel, name}) => new Planet(mass, pos, vel, name));
-        });
+    loadPreset(event.target.value);
   });
-  planets = [
-    new Planet(100000000, [0, 0], [0, 0], 'sun'),
-    new Planet(100000, [-300000, -200000], [0, 1000], 'venus'),
-    new Planet(100000, [-100000, -100000], [0.1, 1000], 'mars'),
-    new Planet(100000, [-100000, 0], [0.1, 1700], 'pluto'),
-    new Planet(2000000, [-180000, -100000], [0, 1500], 'saturn')
-  ];
+  loadPreset('preset1.json');
   timer = setInterval(updatePlanets, 1000 / FRAMERATE);
 }
 
