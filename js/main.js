@@ -19,8 +19,9 @@ let fpsElement;
 
 function loadPreset(preset) {
   fetch(preset).then((response) => response.json()).then((json) => {
-    planets =
-        json.map(({mass, pos, vel, name}) => new Planet(mass, pos, vel, name));
+    planets = json.map(
+        ({mass, pos, vel, name, color}) =>
+            new Planet(mass, pos, vel, name, color));
   });
 }
 

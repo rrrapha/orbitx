@@ -3,18 +3,21 @@
     "mass": 200000000,
     "pos": [0, 0],
     "vel": [0, 0],
-    "name": "sun"
+    "name": "sun",
+    "color": "#FFF000"
   },
   {
     "mass": 1000000,
     "pos": [-300000, 5000],
     "vel": [0, 1856],
-    "name": "earth"
+    "name": "earth",
+    "color": "#0070FF"
   },
   {
     "mass": 100000,
     "pos": [-300000, -5000],
     "vel": [750, 1856],
-    "name": "moon"
+    "name": "moon",
+    "color": "#EEEEEE"
   }
 ]

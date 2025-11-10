@@ -1,6 +1,6 @@
 'use strict';
 
-import {circle, randomColor} from './util.js';
+import {circle} from './util.js';
 import {POSFAC, SIZEFAC, POS_OFFSET_X, POS_OFFSET_Y, getContext} from './globals.js';
 
 export {Planet};
@@ -19,13 +19,13 @@ class Planet {
   speed;
   color;
 
-  constructor(mass, initpos, initdir, name) {
+  constructor(mass, initpos, initdir, name, color) {
     this.mass = mass;
     this.pos = initpos;
     this.vel = initdir;
     this.name = name;
     this.speed = Math.sqrt(initdir[0] * initdir[0] + initdir[1] * initdir[1]);
-    this.color = randomColor();
+    this.color = color;
     this.size = (Math.pow(mass / ((4 / 3) * Math.PI), 1 / 3)) / SIZEFAC;
     for (let i = 0; i < nTrace; i++) {
       this.trace[i] = [
