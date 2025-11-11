@@ -1,13 +1,13 @@
-body{
-	background-color:#424242;
-	margin:0px;
-	padding:0px;
-	overflow: hidden;
+body {
+  background-color: #424242;
+  margin: 0px;
+  padding: 0px;
+  overflow:  hidden;
 }
-#canvas{
-	position:absolute;
-	z-index:-1;
+#canvas {
+  position: absolute;
+  z-index: -1;
 }
-#fps{
-	color:white;
+#fps {
+  color: white;
 }
