@@ -2,7 +2,7 @@
 
 import {Planet} from './planet.js';
 import {Ode} from './ode.js';
-import {SCREEN_WIDTH, SCREEN_HEIGHT, setContext, getContext} from './globals.js';
+import {setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight} from './globals.js';
 
 // CONSTANTS
 const FRAMERATE = 20;
@@ -25,12 +25,21 @@ function loadPreset(preset) {
   });
 }
 
+function updateScreenSize() {
+  setScreenWidth(window.innerWidth);
+  setScreenHeight(window.innerHeight);
+  const canvas = document.getElementById('canvas');
+  canvas.setAttribute('width', getScreenWidth());
+  canvas.setAttribute('height', getScreenHeight());
+}
+
+window.addEventListener('resize', updateScreenSize);
+
 document.addEventListener('DOMContentLoaded', init);
 function init() {
   const canvas = document.getElementById('canvas');
-  canvas.setAttribute('width', SCREEN_WIDTH + 'px');
-  canvas.setAttribute('height', SCREEN_HEIGHT + 'px');
   setContext(canvas.getContext('2d'));
+  updateScreenSize();
   fpsElement = document.getElementById('fps');
   document.getElementById('presets').addEventListener('change', (event) => {
     loadPreset(event.target.value);
@@ -43,7 +52,7 @@ function updatePlanets() {
   fps();
   if (H === 0) return;
   const context = getContext();
-  context.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+  context.clearRect(0, 0, getScreenWidth(), getScreenHeight());
   const res = new Array(planets.length);
   for (let i = 0; i < planets.length; ++i) {
     function deriv(t, cond) {

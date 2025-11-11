@@ -2,7 +2,9 @@ body{
 	background-color:#424242;
 	margin:0px;
 	padding:0px;
+	overflow: hidden;
 }
 #canvas{
-	border:1px solid black;
+	position:absolute;
+	z-index:-1;
 }

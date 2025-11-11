@@ -1,7 +1,7 @@
 'use strict';
 
 import {circle} from './util.js';
-import {POSFAC, SIZEFAC, POS_OFFSET_X, POS_OFFSET_Y, getContext} from './globals.js';
+import {POSFAC, SIZEFAC, getScreenWidth, getScreenHeight, getContext} from './globals.js';
 
 export {Planet};
 
@@ -28,9 +28,7 @@ class Planet {
     this.color = color;
     this.size = (Math.pow(mass / ((4 / 3) * Math.PI), 1 / 3)) / SIZEFAC;
     for (let i = 0; i < nTrace; i++) {
-      this.trace[i] = [
-        initpos[0] / POSFAC + POS_OFFSET_X, initpos[1] / POSFAC + POS_OFFSET_Y
-      ];
+      this.trace[i] = [initpos[0], initpos[1]];
     }
   }
 
@@ -40,7 +38,9 @@ class Planet {
 
   move(x, y) {
     // move planet to pixel
-    this.pos = [(x - POS_OFFSET_X) * POSFAC, (y - POS_OFFSET_Y) * POSFAC];
+    this.pos = [
+      (x - getScreenWidth() / 2) * POSFAC, (y - getScreenHeight() / 2) * POSFAC
+    ];
     this.vel = [0, 0];
     this.speed = 0;
   }
@@ -68,23 +68,26 @@ class Planet {
     this.count++;
     if (this.count % 2 === 0) {
       this.tracePos = (this.tracePos + 1) % nTrace;
-      this.trace[this.tracePos] =
-          [p0 / POSFAC + POS_OFFSET_X, p1 / POSFAC + POS_OFFSET_Y];
+      this.trace[this.tracePos] = [p0, p1];
     }
     circle(
-        p0 / POSFAC + POS_OFFSET_X, p1 / POSFAC + POS_OFFSET_Y, this.size,
-        this.color);
+        p0 / POSFAC + getScreenWidth() / 2, p1 / POSFAC + getScreenHeight() / 2,
+        this.size, this.color);
     // draw traces
     const pp1 = (this.tracePos < nTrace - 1) ? this.tracePos + 1 : 0;
     const context = getContext();
     context.strokeStyle = '#999999';
     context.beginPath();
-    context.moveTo(this.trace[pp1][0], this.trace[pp1][1]);
+    const trace = this.trace.map(
+        ([p0, p1]) =>
+            [p0 / POSFAC + getScreenWidth() / 2,
+             p1 / POSFAC + getScreenHeight() / 2]);
+    context.moveTo(trace[pp1][0], trace[pp1][1]);
     for (let i = pp1 + 1; i < nTrace; i++) {
-      context.lineTo(this.trace[i][0], this.trace[i][1]);
+      context.lineTo(trace[i][0], trace[i][1]);
     }
     for (let i = 0; i < pp1; i++) {
-      context.lineTo(this.trace[i][0], this.trace[i][1]);
+      context.lineTo(trace[i][0], trace[i][1]);
     }
     context.stroke();
     context.closePath();
