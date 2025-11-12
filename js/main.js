@@ -41,10 +41,11 @@ function init() {
   setContext(canvas.getContext('2d'));
   updateScreenSize();
   fpsElement = document.getElementById('fps');
-  document.getElementById('presets').addEventListener('change', (event) => {
+  const presets = document.getElementById('presets');
+  presets.addEventListener('change', (event) => {
     loadPreset(event.target.value);
   });
-  loadPreset('preset1.json');
+  loadPreset(presets.value);
   timer = setInterval(updatePlanets, 1000 / FRAMERATE);
 }
 
