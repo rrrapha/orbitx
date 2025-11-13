@@ -1,7 +1,7 @@
 'use strict';
 
 import {circle} from './util.js';
-import {POSFAC, SIZEFAC, getScreenWidth, getScreenHeight, getContext} from './globals.js';
+import {POSFAC, getSizeFac, getScreenWidth, getScreenHeight, getContext} from './globals.js';
 
 export {Planet};
 
@@ -26,7 +26,7 @@ class Planet {
     this.name = name;
     this.speed = Math.sqrt(initdir[0] * initdir[0] + initdir[1] * initdir[1]);
     this.color = color;
-    this.size = (Math.pow(mass / ((4 / 3) * Math.PI), 1 / 3)) / SIZEFAC;
+    this.size = Math.pow(mass / ((4 / 3) * Math.PI), 1 / 3);
     for (let i = 0; i < nTrace; i++) {
       this.trace[i] = [initpos[0], initpos[1]];
     }
@@ -72,7 +72,7 @@ class Planet {
     }
     circle(
         p0 / POSFAC + getScreenWidth() / 2, p1 / POSFAC + getScreenHeight() / 2,
-        this.size, this.color);
+        this.size / getSizeFac(), this.color);
     // draw traces
     const pp1 = (this.tracePos < nTrace - 1) ? this.tracePos + 1 : 0;
     const context = getContext();

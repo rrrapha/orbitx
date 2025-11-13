@@ -2,7 +2,7 @@
 
 import {Planet} from './planet.js';
 import {Ode} from './ode.js';
-import {setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight} from './globals.js';
+import {setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac} from './globals.js';
 
 // CONSTANTS
 const FRAMERATE = 20;
@@ -35,6 +35,11 @@ function updateScreenSize() {
 
 window.addEventListener('resize', updateScreenSize);
 
+function updateScale() {
+  const scale = 101 - document.getElementById('scale-slider').value;
+  setSizeFac(scale / 5);
+}
+
 document.addEventListener('DOMContentLoaded', init);
 function init() {
   const canvas = document.getElementById('canvas');
@@ -45,6 +50,9 @@ function init() {
   presets.addEventListener('change', (event) => {
     loadPreset(event.target.value);
   });
+  document.getElementById('scale-slider')
+      .addEventListener('change', updateScale);
+  updateScale();
   loadPreset(presets.value);
   timer = setInterval(updatePlanets, 1000 / FRAMERATE);
 }
