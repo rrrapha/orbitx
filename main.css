@@ -3,11 +3,9 @@ body {
   margin: 0px;
   padding: 0px;
   overflow:  hidden;
+  color: white;
 }
 #canvas {
   position: absolute;
   z-index: -1;
-}
-#fps {
-  color: white;
 }
