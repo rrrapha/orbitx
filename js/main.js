@@ -2,7 +2,7 @@
 
 import {Planet} from './planet.js';
 import {Ode} from './ode.js';
-import {setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac} from './globals.js';
+import {setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac, setPosFac} from './globals.js';
 
 // CONSTANTS
 const FRAMERATE = 20;
@@ -40,6 +40,11 @@ function updateScale() {
   setSizeFac(scale / 5);
 }
 
+function updateZoom() {
+  const zoom = document.getElementById('zoom-slider').value;
+  setPosFac(50 / zoom);
+}
+
 document.addEventListener('DOMContentLoaded', init);
 function init() {
   const canvas = document.getElementById('canvas');
@@ -53,6 +58,8 @@ function init() {
   document.getElementById('scale-slider')
       .addEventListener('change', updateScale);
   updateScale();
+  document.getElementById('zoom-slider').addEventListener('change', updateZoom);
+  updateZoom();
   loadPreset(presets.value);
   timer = setInterval(updatePlanets, 1000 / FRAMERATE);
 }

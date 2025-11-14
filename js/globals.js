@@ -1,14 +1,10 @@
 'use strict';
 
-// CONSTANTS
-export const POSFAC = 2000;
-export const ZOOM = 1;
-
-// VARIABLES
 let context;
 let screenWidth = 500;
 let screenHeight = 500;
 let sizeFac = 10;
+let posFac = 1;
 
 export function getContext() {
   return context;
@@ -23,7 +19,11 @@ export function getScreenHeight() {
 }
 
 export function getSizeFac() {
-  return sizeFac;
+  return sizeFac * posFac;
+}
+
+export function getPosFac() {
+  return posFac * 2000;
 }
 
 export function setContext(newContext) {
@@ -40,4 +40,8 @@ export function setScreenHeight(newScreenHeight) {
 
 export function setSizeFac(newSizeFac) {
   sizeFac = newSizeFac;
+}
+
+export function setPosFac(newPosFac) {
+  posFac = newPosFac;
 }
