@@ -1,5 +1,11 @@
 # planets
-Solar system simulation
+planets is a program that simulates gravity in two dimensions. It can help to understand how gravity affects celestial bodies.
+
+Newton's law of gravity:
+
+$F_G = G {m_1 m_2 \over r^2}$  
+
+The program uses the Runge-Kutta method to approximate a numerical solution to the problem.
 
 Links: \
 https://de.wikipedia.org/wiki/Gravitation \
