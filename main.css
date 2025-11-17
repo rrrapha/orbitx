@@ -4,8 +4,26 @@ body {
   padding: 0px;
   overflow:  hidden;
   color: white;
+  font-family: "Courier New", monospace;
+  height: 100%;
+}
+html {
+  height: 100%;
 }
 #canvas {
   position: absolute;
   z-index: -1;
+}
+#grid {
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
+  column-gap: 1em;
+}
+#fps {
+  display: block;
+  bottom: 0;
+  position: absolute;
+}
+#fps::before {
+  content: "fps: ";
 }

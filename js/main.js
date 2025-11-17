@@ -36,12 +36,14 @@ function updateScreenSize() {
 window.addEventListener('resize', updateScreenSize);
 
 function updateScale() {
-  const scale = 101 - document.getElementById('scale-slider').value;
-  setSizeFac(scale / 5);
+  const scale = document.getElementById('scale-slider').value;
+  document.getElementById('scale-num').textContent = scale;
+  setSizeFac((101 - scale) / 5);
 }
 
 function updateZoom() {
   const zoom = document.getElementById('zoom-slider').value;
+  document.getElementById('zoom-num').textContent = zoom;
   setPosFac(50 / zoom);
 }
 
