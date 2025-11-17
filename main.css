@@ -1,14 +1,16 @@
 body {
   background-color: #424242;
   margin: 0px;
-  padding: 0px;
+  padding: 5px;
   overflow:  hidden;
   color: white;
-  font-family: "Courier New", monospace;
   height: 100%;
 }
 html {
   height: 100%;
+}
+* {
+  font: 1em "Courier New", monospace;
 }
 #canvas {
   position: absolute;
@@ -17,13 +19,16 @@ html {
 #grid {
   display: grid;
   grid-template-columns: max-content max-content max-content;
-  column-gap: 1em;
+  column-gap: 0.2em;
 }
 #fps {
   display: block;
-  bottom: 0;
+  bottom: 5px;
   position: absolute;
 }
 #fps::before {
   content: "fps: ";
+}
+#grid > * {
+  margin: 2px;
 }
