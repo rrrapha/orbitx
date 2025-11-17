@@ -56,9 +56,9 @@ function init() {
     loadPreset(event.target.value);
   });
   document.getElementById('scale-slider')
-      .addEventListener('change', updateScale);
+      .addEventListener('input', updateScale);
   updateScale();
-  document.getElementById('zoom-slider').addEventListener('change', updateZoom);
+  document.getElementById('zoom-slider').addEventListener('input', updateZoom);
   updateZoom();
   loadPreset(presets.value);
   timer = setInterval(updatePlanets, 1000 / FRAMERATE);
