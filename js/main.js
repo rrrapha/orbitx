@@ -14,7 +14,7 @@ const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
 // VARS
 let timer;
 let planets = [];
-const H = 1;  // integration stepsize (divided later)
+let H = 1;  // integration stepsize (divided later)
 let fpsElement;
 
 function loadPreset(preset) {
@@ -47,6 +47,12 @@ function updateZoom() {
   setPosFac(50 / zoom);
 }
 
+function updateTime() {
+  const time = document.getElementById('time-slider').value;
+  document.getElementById('time-num').textContent = time;
+  H = time;
+}
+
 document.addEventListener('DOMContentLoaded', init);
 function init() {
   const canvas = document.getElementById('canvas');
@@ -62,6 +68,8 @@ function init() {
   updateScale();
   document.getElementById('zoom-slider').addEventListener('input', updateZoom);
   updateZoom();
+  document.getElementById('time-slider').addEventListener('input', updateTime);
+  updateTime();
   loadPreset(presets.value);
   timer = setInterval(updatePlanets, 1000 / FRAMERATE);
 }
