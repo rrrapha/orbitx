@@ -5,7 +5,6 @@ import {Ode} from './ode.js';
 import {setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac, setPosFac} from './globals.js';
 
 // CONSTANTS
-const FRAMERATE = 20;
 const UNIT_M = 1000000;  // meter
 const UNIT_S = 3600;     // sec
 const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
@@ -71,7 +70,7 @@ function init() {
   document.getElementById('time-slider').addEventListener('input', updateTime);
   updateTime();
   loadPreset(presets.value);
-  timer = requestAnimationFrame(update, 1000 / FRAMERATE);
+  timer = requestAnimationFrame(update);
 }
 
 let prevTimestamp;
@@ -90,7 +89,7 @@ function update(timestamp) {
   for (let i = 0; i < planets.length; ++i) {
     planets[i].draw();
   }
-  timer = requestAnimationFrame(update, 1000 / FRAMERATE);
+  timer = requestAnimationFrame(update);
 }
 
 function updatePlanets() {
