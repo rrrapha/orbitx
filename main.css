@@ -19,7 +19,9 @@ html {
 #grid {
   display: grid;
   grid-template-columns: max-content max-content max-content;
+  grid-auto-rows: 2em;
   column-gap: 0.2em;
+  align-items: center;
 }
 #fps {
   display: block;
