@@ -93,7 +93,6 @@ function update(timestamp) {
 }
 
 function updatePlanets() {
-  if (H === 0) return;
   const context = getContext();
   context.clearRect(0, 0, getScreenWidth(), getScreenHeight());
   const res = new Array(planets.length);
