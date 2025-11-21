@@ -74,16 +74,16 @@ function init() {
 }
 
 let prevTimestamp;
-let acc = 0;
+let accumulator = 0;
 function update(timestamp) {
   fps();
   if (prevTimestamp === undefined) {
     prevTimestamp = timestamp;
   }
-  acc += timestamp - prevTimestamp;
+  accumulator += timestamp - prevTimestamp;
   prevTimestamp = timestamp;
-  while (acc >= simulationDelay) {
-    acc -= simulationDelay;
+  while (accumulator >= simulationDelay) {
+    accumulator -= simulationDelay;
     updatePlanets();
   }
   for (let i = 0; i < planets.length; ++i) {
