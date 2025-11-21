@@ -71,10 +71,13 @@ class Planet {
       this.tracePos = (this.tracePos + 1) % nTrace;
       this.trace[this.tracePos] = [p0, p1];
     }
+  }
+
+  draw() {
     circle(
-        p0 / getPosFac() + getScreenWidth() / 2,
-        p1 / getPosFac() + getScreenHeight() / 2, this.size / getSizeFac(),
-        this.color);
+        this.pos[0] / getPosFac() + getScreenWidth() / 2,
+        this.pos[1] / getPosFac() + getScreenHeight() / 2,
+        this.size / getSizeFac(), this.color);
     // draw traces
     const pp1 = (this.tracePos < nTrace - 1) ? this.tracePos + 1 : 0;
     const context = getContext();

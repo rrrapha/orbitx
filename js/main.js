@@ -5,7 +5,6 @@ import {Ode} from './ode.js';
 import {setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac, setPosFac} from './globals.js';
 
 // CONSTANTS
-const FRAMERATE = 20;
 const UNIT_M = 1000000;  // meter
 const UNIT_S = 3600;     // sec
 const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
@@ -14,7 +13,7 @@ const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
 // VARS
 let timer;
 let planets = [];
-const H = 1;  // integration stepsize (divided later)
+let simulationDelay;
 let fpsElement;
 
 function loadPreset(preset) {
@@ -47,6 +46,12 @@ function updateZoom() {
   setPosFac(50 / zoom);
 }
 
+function updateTime() {
+  const time = document.getElementById('time-slider').value;
+  document.getElementById('time-num').textContent = time;
+  simulationDelay = 11 - time;
+}
+
 document.addEventListener('DOMContentLoaded', init);
 function init() {
   const canvas = document.getElementById('canvas');
@@ -62,13 +67,32 @@ function init() {
   updateScale();
   document.getElementById('zoom-slider').addEventListener('input', updateZoom);
   updateZoom();
+  document.getElementById('time-slider').addEventListener('input', updateTime);
+  updateTime();
   loadPreset(presets.value);
-  timer = setInterval(updatePlanets, 1000 / FRAMERATE);
+  timer = requestAnimationFrame(update);
+}
+
+let prevTimestamp;
+let accumulator = 0;
+function update(timestamp) {
+  fps();
+  if (prevTimestamp === undefined) {
+    prevTimestamp = timestamp;
+  }
+  accumulator += timestamp - prevTimestamp;
+  prevTimestamp = timestamp;
+  while (accumulator >= simulationDelay) {
+    accumulator -= simulationDelay;
+    updatePlanets();
+  }
+  for (let i = 0; i < planets.length; ++i) {
+    planets[i].draw();
+  }
+  timer = requestAnimationFrame(update);
 }
 
 function updatePlanets() {
-  fps();
-  if (H === 0) return;
   const context = getContext();
   context.clearRect(0, 0, getScreenWidth(), getScreenHeight());
   const res = new Array(planets.length);
@@ -97,7 +121,7 @@ function updatePlanets() {
     const p = planets[i];
     const steps = p.steps;
     res[i] =
-        Ode.ode(deriv, 0, H, [p.pos[0], p.pos[1], p.vel[0], p.vel[1]], steps);
+        Ode.ode(deriv, 0, 1, [p.pos[0], p.pos[1], p.vel[0], p.vel[1]], steps);
   }
   for (let i = 0; i < planets.length; ++i) {
     planets[i].doMove(res[i]);
