@@ -13,7 +13,7 @@ const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
 // VARS
 let timer;
 let planets = [];
-let H;
+let simulationDelay;
 let fpsElement;
 
 function loadPreset(preset) {
@@ -49,7 +49,7 @@ function updateZoom() {
 function updateTime() {
   const time = document.getElementById('time-slider').value;
   document.getElementById('time-num').textContent = time;
-  H = 11 - time;
+  simulationDelay = 11 - time;
 }
 
 document.addEventListener('DOMContentLoaded', init);
@@ -82,8 +82,8 @@ function update(timestamp) {
   }
   acc += timestamp - prevTimestamp;
   prevTimestamp = timestamp;
-  while (acc >= H) {
-    acc -= H;
+  while (acc >= simulationDelay) {
+    acc -= simulationDelay;
     updatePlanets();
   }
   for (let i = 0; i < planets.length; ++i) {
