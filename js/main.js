@@ -2,7 +2,7 @@
 
 import {Planet} from './planet.js';
 import {Ode} from './ode.js';
-import {setCenterX, setCenterY, setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac, setPosFac} from './globals.js';
+import {setCenterTrace, setCenterX, setCenterY, setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac, setPosFac} from './globals.js';
 
 // CONSTANTS
 const UNIT_M = 1000000;  // meter
@@ -111,10 +111,13 @@ function update(timestamp) {
   if (centerPlanet === null) {
     setCenterX(0);
     setCenterY(0);
+    setCenterTrace(null);
   } else {
-    const pos = planets[centerPlanet].pos;
+    const planet = planets[centerPlanet];
+    const pos = planet.pos;
     setCenterX(pos[0]);
     setCenterY(pos[1]);
+    setCenterTrace(planet.trace);
   }
   for (let i = 0; i < planets.length; ++i) {
     planets[i].draw();

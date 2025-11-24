@@ -1,7 +1,7 @@
 'use strict';
 
 import {circle} from './util.js';
-import {getCenterX, getCenterY, getPosFac, getSizeFac, getScreenWidth, getScreenHeight, getContext} from './globals.js';
+import {getCenterTrace, getCenterX, getCenterY, getPosFac, getSizeFac, getScreenWidth, getScreenHeight, getContext} from './globals.js';
 
 export {Planet};
 
@@ -81,10 +81,14 @@ class Planet {
     const context = getContext();
     context.strokeStyle = '#999999';
     context.beginPath();
+    let centerTrace = getCenterTrace();
+    if (centerTrace === null) {
+      centerTrace = Array(nTrace).fill([0, 0]);
+    }
     const trace = this.trace.map(
-        ([p0, p1]) =>
-            [(p0 - getCenterX()) / getPosFac() + getScreenWidth() / 2,
-             (p1 - getCenterY()) / getPosFac() + getScreenHeight() / 2]);
+        ([p0, p1], i) =>
+            [(p0 - centerTrace[i][0]) / getPosFac() + getScreenWidth() / 2,
+             (p1 - centerTrace[i][1]) / getPosFac() + getScreenHeight() / 2]);
     context.moveTo(trace[0][0], trace[0][1]);
     for (let i = 1; i < nTrace; i++) {
       context.lineTo(trace[i][0], trace[i][1]);

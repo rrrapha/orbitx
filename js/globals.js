@@ -7,6 +7,7 @@ let sizeFac = 10;
 let posFac = 1;
 let centerX = 0;
 let centerY = 0;
+let centerTrace = null;
 
 export function getCenterX() {
   return centerX;
@@ -14,6 +15,10 @@ export function getCenterX() {
 
 export function getCenterY() {
   return centerY;
+}
+
+export function getCenterTrace() {
+  return centerTrace;
 }
 
 export function getContext() {
@@ -42,6 +47,10 @@ export function setCenterX(newCenterX) {
 
 export function setCenterY(newCenterY) {
   centerY = newCenterY;
+}
+
+export function setCenterTrace(newCenterTrace) {
+  centerTrace = newCenterTrace;
 }
 
 export function setContext(newContext) {
