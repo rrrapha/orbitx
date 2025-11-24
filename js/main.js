@@ -2,7 +2,7 @@
 
 import {Planet} from './planet.js';
 import {Ode} from './ode.js';
-import {setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac, setPosFac} from './globals.js';
+import {setCenterX, setCenterY, setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac, setPosFac} from './globals.js';
 
 // CONSTANTS
 const UNIT_M = 1000000;  // meter
@@ -15,12 +15,24 @@ let timer;
 let planets = [];
 let simulationDelay;
 let fpsElement;
+let centerPlanet = null;
 
 function loadPreset(preset) {
   fetch(preset).then((response) => response.json()).then((json) => {
     planets = json.map(
         ({mass, pos, vel, name, color}) =>
             new Planet(mass, pos, vel, name, color));
+    const center = document.getElementById('center');
+    while (center.childElementCount > 1) {
+      center.removeChild(center.lastElementChild);
+    }
+    for (let i = 0; i < planets.length; i++) {
+      const planet = document.createElement('option');
+      planet.value = i;
+      planet.textContent = planets[i].name;
+      center.appendChild(planet);
+    }
+    updateCenter();
   });
 }
 
@@ -52,6 +64,15 @@ function updateTime() {
   simulationDelay = 11 - time;
 }
 
+function updateCenter() {
+  const value = document.getElementById('center').value;
+  if (value === '') {
+    centerPlanet = null;
+  } else {
+    centerPlanet = parseInt(value);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', init);
 function init() {
   const canvas = document.getElementById('canvas');
@@ -69,6 +90,7 @@ function init() {
   updateZoom();
   document.getElementById('time-slider').addEventListener('input', updateTime);
   updateTime();
+  document.getElementById('center').addEventListener('input', updateCenter);
   loadPreset(presets.value);
   timer = requestAnimationFrame(update);
 }
@@ -85,6 +107,14 @@ function update(timestamp) {
   while (accumulator >= simulationDelay) {
     accumulator -= simulationDelay;
     updatePlanets();
+  }
+  if (centerPlanet === null) {
+    setCenterX(0);
+    setCenterY(0);
+  } else {
+    const pos = planets[centerPlanet].pos;
+    setCenterX(pos[0]);
+    setCenterY(pos[1]);
   }
   for (let i = 0; i < planets.length; ++i) {
     planets[i].draw();

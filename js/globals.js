@@ -5,6 +5,16 @@ let screenWidth = 500;
 let screenHeight = 500;
 let sizeFac = 10;
 let posFac = 1;
+let centerX = 0;
+let centerY = 0;
+
+export function getCenterX() {
+  return centerX;
+}
+
+export function getCenterY() {
+  return centerY;
+}
 
 export function getContext() {
   return context;
@@ -24,6 +34,14 @@ export function getSizeFac() {
 
 export function getPosFac() {
   return posFac * 2000;
+}
+
+export function setCenterX(newCenterX) {
+  centerX = newCenterX;
+}
+
+export function setCenterY(newCenterY) {
+  centerY = newCenterY;
 }
 
 export function setContext(newContext) {

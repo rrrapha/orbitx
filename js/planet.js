@@ -1,7 +1,7 @@
 'use strict';
 
 import {circle} from './util.js';
-import {getPosFac, getSizeFac, getScreenWidth, getScreenHeight, getContext} from './globals.js';
+import {getCenterX, getCenterY, getPosFac, getSizeFac, getScreenWidth, getScreenHeight, getContext} from './globals.js';
 
 export {Planet};
 
@@ -39,8 +39,8 @@ class Planet {
   move(x, y) {
     // move planet to pixel
     this.pos = [
-      (x - getScreenWidth() / 2) * getPosFac(),
-      (y - getScreenHeight() / 2) * getPosFac()
+      (x - getScreenWidth() / 2) * getPosFac() + getCenterX(),
+      (y - getScreenHeight() / 2) * getPosFac() + getCenterY(),
     ];
     this.vel = [0, 0];
     this.speed = 0;
@@ -75,8 +75,8 @@ class Planet {
 
   draw() {
     circle(
-        this.pos[0] / getPosFac() + getScreenWidth() / 2,
-        this.pos[1] / getPosFac() + getScreenHeight() / 2,
+        (this.pos[0] - getCenterX()) / getPosFac() + getScreenWidth() / 2,
+        (this.pos[1] - getCenterY()) / getPosFac() + getScreenHeight() / 2,
         this.size / getSizeFac(), this.color);
     // draw traces
     const pp1 = (this.tracePos < nTrace - 1) ? this.tracePos + 1 : 0;
@@ -85,8 +85,8 @@ class Planet {
     context.beginPath();
     const trace = this.trace.map(
         ([p0, p1]) =>
-            [p0 / getPosFac() + getScreenWidth() / 2,
-             p1 / getPosFac() + getScreenHeight() / 2]);
+            [(p0 - getCenterX()) / getPosFac() + getScreenWidth() / 2,
+             (p1 - getCenterY()) / getPosFac() + getScreenHeight() / 2]);
     context.moveTo(trace[pp1][0], trace[pp1][1]);
     for (let i = pp1 + 1; i < nTrace; i++) {
       context.lineTo(trace[i][0], trace[i][1]);
