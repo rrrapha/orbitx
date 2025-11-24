@@ -2,7 +2,7 @@
 
 import {Planet} from './planet.js';
 import {Ode} from './ode.js';
-import {setCenterTrace, setCenterX, setCenterY, setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac, setPosFac} from './globals.js';
+import {setTraceLength, setCenterTrace, setCenterX, setCenterY, setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac, setPosFac} from './globals.js';
 
 // CONSTANTS
 const UNIT_M = 1000000;  // meter
@@ -65,6 +65,12 @@ function updateTime() {
   simulationDelay = 11 - time;
 }
 
+function updateTrace() {
+  const trace = document.getElementById('trace-slider').value;
+  document.getElementById('trace-num').textContent = trace;
+  setTraceLength(trace);
+}
+
 function updateCenter() {
   const value = document.getElementById('center').value;
   if (value === '') {
@@ -95,6 +101,9 @@ function init() {
   updateZoom();
   document.getElementById('time-slider').addEventListener('input', updateTime);
   updateTime();
+  document.getElementById('trace-slider')
+      .addEventListener('input', updateTrace);
+  updateTrace();
   document.getElementById('center').addEventListener('input', updateCenter);
   document.getElementById('accurate-traces')
       .addEventListener('input', updateTraceStyle);

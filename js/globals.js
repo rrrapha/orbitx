@@ -8,6 +8,11 @@ let posFac = 1;
 let centerX = 0;
 let centerY = 0;
 let centerTrace = null;
+let traceLength = 64;
+
+export function getTraceLength() {
+  return traceLength;
+}
 
 export function getCenterX() {
   return centerX;
@@ -39,6 +44,10 @@ export function getSizeFac() {
 
 export function getPosFac() {
   return posFac * 2000;
+}
+
+export function setTraceLength(newTraceLength) {
+  traceLength = newTraceLength;
 }
 
 export function setCenterX(newCenterX) {
