@@ -16,6 +16,7 @@ let planets = [];
 let simulationDelay;
 let fpsElement;
 let centerPlanet = null;
+let accurateTraces = false;
 
 function loadPreset(preset) {
   fetch(preset).then((response) => response.json()).then((json) => {
@@ -73,6 +74,10 @@ function updateCenter() {
   }
 }
 
+function updateTraceStyle() {
+  accurateTraces = document.getElementById('accurate-traces').checked;
+}
+
 document.addEventListener('DOMContentLoaded', init);
 function init() {
   const canvas = document.getElementById('canvas');
@@ -91,6 +96,9 @@ function init() {
   document.getElementById('time-slider').addEventListener('input', updateTime);
   updateTime();
   document.getElementById('center').addEventListener('input', updateCenter);
+  document.getElementById('accurate-traces')
+      .addEventListener('input', updateTraceStyle);
+  updateTraceStyle();
   loadPreset(presets.value);
   timer = requestAnimationFrame(update);
 }
@@ -117,7 +125,11 @@ function update(timestamp) {
     const pos = planet.pos;
     setCenterX(pos[0]);
     setCenterY(pos[1]);
-    setCenterTrace(planet.trace);
+    if (accurateTraces) {
+      setCenterTrace(planet.trace);
+    } else {
+      setCenterTrace(null);
+    }
   }
   for (let i = 0; i < planets.length; ++i) {
     planets[i].draw();

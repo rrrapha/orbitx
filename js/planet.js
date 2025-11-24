@@ -7,7 +7,6 @@ export {Planet};
 
 const TRACE_LENGTH = 64;
 const PI200 = 200 / Math.PI;
-const EMPTY_TRACE = Array(TRACE_LENGTH).fill([0, 0]);
 class Planet {
   mass;
   size;
@@ -84,7 +83,7 @@ class Planet {
     context.beginPath();
     let centerTrace = getCenterTrace();
     if (centerTrace === null) {
-      centerTrace = EMPTY_TRACE;
+      centerTrace = Array(TRACE_LENGTH).fill([getCenterX(), getCenterY()]);
     }
     const trace = this.trace.map(
         ([p0, p1], i) =>
