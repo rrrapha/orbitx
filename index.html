@@ -10,12 +10,21 @@
 </head>
   <body>
     <canvas id="canvas"></canvas>
-    <select id="presets">
-      <option value="presets/preset1.json" selected>Original</option>
-      <option value="presets/preset2.json">Sun Earth Moon</option>
-      <option value="presets/preset3.json">Two Suns</option>
-    </select>
     <div id="grid">
+      <label for="presets">preset</label>
+      <select id="presets">
+        <option value="presets/preset1.json" selected>Original</option>
+        <option value="presets/preset2.json">Sun Earth Moon</option>
+        <option value="presets/preset3.json">Two Suns</option>
+      </select>
+      <label></label>
+
+      <label for="center">center</label>
+      <select id="center">
+        <option value="" selected>-</option>
+      </select>
+      <label><input type="checkbox"></label>
+
       <label for="scale-slider">scale</label>
       <input type="range" id="scale-slider" min="1" max="100" value="50">
       <label for="scale-slider" id="scale-num"></label>
@@ -28,9 +37,6 @@
       <input type="range" id="time-slider" min="1" max="10" value="1">
       <label for="time-slider" id="time-num"></label>
     </div>
-    <select id="center">
-      <option value="" selected>-</option>
-    </select>
     <span id="fps"></span>
 
     <script type="module" src="js/main.js"></script>
