@@ -5,13 +5,13 @@ import {getCenterTrace, getCenterX, getCenterY, getPosFac, getSizeFac, getScreen
 
 export {Planet};
 
-const nTrace = 64;
+const TRACE_LENGTH = 64;
 const PI200 = 200 / Math.PI;
-const EMPTY_TRACE = Array(nTrace).fill([0, 0]);
+const EMPTY_TRACE = Array(TRACE_LENGTH).fill([0, 0]);
 class Planet {
   mass;
   size;
-  trace = new Array(nTrace);
+  trace = new Array(TRACE_LENGTH);
   steps = 1;  // number of steps
   count = 0;
   pos;
@@ -27,7 +27,7 @@ class Planet {
     this.speed = Math.sqrt(initdir[0] * initdir[0] + initdir[1] * initdir[1]);
     this.color = color;
     this.size = Math.pow(mass / ((4 / 3) * Math.PI), 1 / 3);
-    for (let i = 0; i < nTrace; i++) {
+    for (let i = 0; i < TRACE_LENGTH; i++) {
       this.trace[i] = [initpos[0], initpos[1]];
     }
   }
@@ -91,7 +91,7 @@ class Planet {
             [(p0 - centerTrace[i][0]) / getPosFac() + getScreenWidth() / 2,
              (p1 - centerTrace[i][1]) / getPosFac() + getScreenHeight() / 2]);
     context.moveTo(trace[0][0], trace[0][1]);
-    for (let i = 1; i < nTrace; i++) {
+    for (let i = 1; i < TRACE_LENGTH; i++) {
       context.lineTo(trace[i][0], trace[i][1]);
     }
     context.stroke();
