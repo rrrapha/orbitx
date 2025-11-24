@@ -13,7 +13,6 @@ class Planet {
   trace = new Array(nTrace);
   steps = 1;  // number of steps
   count = 0;
-  tracePos = 0;
   pos;
   vel;
   speed;
@@ -68,8 +67,8 @@ class Planet {
     this.speed = newSpeed;
     this.count++;
     if (this.count % 2 === 0) {
-      this.tracePos = (this.tracePos + 1) % nTrace;
-      this.trace[this.tracePos] = [p0, p1];
+      this.trace.shift();
+      this.trace.push([p0, p1]);
     }
   }
 
@@ -79,7 +78,6 @@ class Planet {
         (this.pos[1] - getCenterY()) / getPosFac() + getScreenHeight() / 2,
         this.size / getSizeFac(), this.color);
     // draw traces
-    const pp1 = (this.tracePos < nTrace - 1) ? this.tracePos + 1 : 0;
     const context = getContext();
     context.strokeStyle = '#999999';
     context.beginPath();
@@ -87,11 +85,8 @@ class Planet {
         ([p0, p1]) =>
             [(p0 - getCenterX()) / getPosFac() + getScreenWidth() / 2,
              (p1 - getCenterY()) / getPosFac() + getScreenHeight() / 2]);
-    context.moveTo(trace[pp1][0], trace[pp1][1]);
-    for (let i = pp1 + 1; i < nTrace; i++) {
-      context.lineTo(trace[i][0], trace[i][1]);
-    }
-    for (let i = 0; i < pp1; i++) {
+    context.moveTo(trace[0][0], trace[0][1]);
+    for (let i = 1; i < nTrace; i++) {
       context.lineTo(trace[i][0], trace[i][1]);
     }
     context.stroke();
