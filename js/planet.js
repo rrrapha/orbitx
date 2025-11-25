@@ -79,7 +79,7 @@ class Planet {
         this.size / getSizeFac(), this.color);
     // draw traces
     const context = getContext();
-    context.strokeStyle = '#999999';
+    context.strokeStyle = this.color;
     context.beginPath();
     let centerTrace = getCenterTrace();
     if (centerTrace === null) {
