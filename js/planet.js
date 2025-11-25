@@ -97,4 +97,19 @@ class Planet {
     context.stroke();
     context.closePath();
   }
+
+  drawLabel() {
+    const context = getContext();
+    context.font = '1em "Courier New", monospace';
+    context.fillStyle = '#EEEEEE';
+    context.textBaseline = 'hanging';
+    const radius = this.size / getSizeFac();
+    context.fillText(
+        this.name,
+        (this.pos[0] - getCenterX()) / getPosFac() + getScreenWidth() / 2 +
+            radius,
+        (this.pos[1] - getCenterY()) / getPosFac() + getScreenHeight() / 2 +
+            radius,
+    );
+  }
 }

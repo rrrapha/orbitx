@@ -34,3 +34,6 @@ html {
 #grid > * {
   margin: 2px;
 }
+#grid > input[type="checkbox" i] {
+  margin-right: auto;
+}

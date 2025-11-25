@@ -17,6 +17,7 @@ let simulationDelay;
 let fpsElement;
 let centerPlanet = null;
 let accurateTraces = false;
+let showLabels = false;
 
 function loadPreset(preset) {
   fetch(preset).then((response) => response.json()).then((json) => {
@@ -84,6 +85,10 @@ function updateTraceStyle() {
   accurateTraces = document.getElementById('accurate-traces').checked;
 }
 
+function updateLabelsEnable() {
+  showLabels = document.getElementById('labels-checkbox').checked;
+}
+
 document.addEventListener('DOMContentLoaded', init);
 function init() {
   const canvas = document.getElementById('canvas');
@@ -108,6 +113,9 @@ function init() {
   document.getElementById('accurate-traces')
       .addEventListener('input', updateTraceStyle);
   updateTraceStyle();
+  document.getElementById('labels-checkbox')
+      .addEventListener('input', updateLabelsEnable);
+  updateLabelsEnable();
   loadPreset(presets.value);
   timer = requestAnimationFrame(update);
 }
@@ -142,6 +150,11 @@ function update(timestamp) {
   }
   for (let i = 0; i < planets.length; ++i) {
     planets[i].draw();
+  }
+  if (showLabels) {
+    for (let i = 0; i < planets.length; ++i) {
+      planets[i].drawLabel();
+    }
   }
   timer = requestAnimationFrame(update);
 }
