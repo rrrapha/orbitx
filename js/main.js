@@ -2,7 +2,7 @@
 
 import {Planet} from './planet.js';
 import {Ode} from './ode.js';
-import {setTraceLength, setCenterTrace, setCenterX, setCenterY, setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac, setPosFac} from './globals.js';
+import {setTraceLength, setCenterTrace, setCenterX, getCenterX, setCenterY, getCenterY, setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac, setPosFac, getPosFac} from './globals.js';
 
 // CONSTANTS
 const UNIT_M = 1000000;  // meter
@@ -18,6 +18,7 @@ let fpsElement;
 let centerPlanet = null;
 let accurateTraces = false;
 let showLabels = false;
+let showAxes = false;
 
 function loadPreset(preset) {
   fetch(preset).then((response) => response.json()).then((json) => {
@@ -89,6 +90,10 @@ function updateLabelsEnable() {
   showLabels = document.getElementById('labels-checkbox').checked;
 }
 
+function updateAxesEnable() {
+  showAxes = document.getElementById('axes-checkbox').checked;
+}
+
 document.addEventListener('DOMContentLoaded', init);
 function init() {
   const canvas = document.getElementById('canvas');
@@ -116,6 +121,9 @@ function init() {
   document.getElementById('labels-checkbox')
       .addEventListener('input', updateLabelsEnable);
   updateLabelsEnable();
+  document.getElementById('axes-checkbox')
+      .addEventListener('input', updateAxesEnable);
+  updateAxesEnable();
   loadPreset(presets.value);
   timer = requestAnimationFrame(update);
 }
@@ -155,6 +163,18 @@ function update(timestamp) {
     for (let i = 0; i < planets.length; ++i) {
       planets[i].drawLabel();
     }
+  }
+  if (showAxes) {
+    const context = getContext();
+    const originX = getScreenWidth() / 2 - getCenterX() / getPosFac();
+    const originY = getScreenHeight() / 2 - getCenterY() / getPosFac();
+    context.strokeStyle = '#CCCCCC';
+    context.beginPath();
+    context.moveTo(0, originY);
+    context.lineTo(getScreenWidth(), originY);
+    context.moveTo(originX, 0);
+    context.lineTo(originX, getScreenHeight());
+    context.stroke();
   }
   timer = requestAnimationFrame(update);
 }
