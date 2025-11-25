@@ -1,8 +1,7 @@
 body {
   background-color: #424242;
   margin: 0px;
-  padding: 5px;
-  overflow:  hidden;
+  overflow: hidden;
   color: white;
   height: 100%;
 }
@@ -22,11 +21,13 @@ html {
   grid-auto-rows: 2em;
   column-gap: 0.2em;
   align-items: center;
+  padding: 5px;
 }
 #fps {
   display: block;
-  bottom: 5px;
   position: absolute;
+  bottom: 0px;
+  padding: 5px;
 }
 #fps::before {
   content: "fps: ";
