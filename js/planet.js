@@ -77,6 +77,9 @@ class Planet {
         (this.pos[0] - getCenterX()) / getPosFac() + getScreenWidth() / 2,
         (this.pos[1] - getCenterY()) / getPosFac() + getScreenHeight() / 2,
         this.size / getSizeFac(), this.color);
+    if (getTraceLength() < 1) {
+      return;
+    }
     // draw traces
     const context = getContext();
     context.strokeStyle = this.color;
