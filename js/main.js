@@ -158,8 +158,10 @@ function update(timestamp) {
   }
   if (showAxes) {
     const context = getContext();
-    const originX = getScreenWidth() / 2 - getCenterX() / getPosFac();
-    const originY = getScreenHeight() / 2 - getCenterY() / getPosFac();
+    const originX =
+        Math.round(getScreenWidth() / 2 - getCenterX() / getPosFac());
+    const originY =
+        Math.round(getScreenHeight() / 2 - getCenterY() / getPosFac());
     context.strokeStyle = '#666666';
     context.beginPath();
     context.moveTo(0, originY);
