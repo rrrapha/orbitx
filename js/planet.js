@@ -76,7 +76,7 @@ class Planet {
     circle(
         (this.pos[0] - getCenterX()) / getPosFac() + getScreenWidth() / 2,
         (this.pos[1] - getCenterY()) / getPosFac() + getScreenHeight() / 2,
-        this.size / getSizeFac(), this.color);
+        this.size / getSizeFac(), this.color + 'C0', this.color);
     if (getTraceLength() < 1) {
       return;
     }
