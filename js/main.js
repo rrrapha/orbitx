@@ -156,14 +156,6 @@ function update(timestamp) {
       setCenterTrace(null);
     }
   }
-  for (let i = 0; i < planets.length; ++i) {
-    planets[i].draw();
-  }
-  if (showLabels) {
-    for (let i = 0; i < planets.length; ++i) {
-      planets[i].drawLabel();
-    }
-  }
   if (showAxes) {
     const context = getContext();
     const originX = getScreenWidth() / 2 - getCenterX() / getPosFac();
@@ -175,6 +167,14 @@ function update(timestamp) {
     context.moveTo(originX, 0);
     context.lineTo(originX, getScreenHeight());
     context.stroke();
+  }
+  for (let i = 0; i < planets.length; ++i) {
+    planets[i].draw();
+  }
+  if (showLabels) {
+    for (let i = 0; i < planets.length; ++i) {
+      planets[i].drawLabel();
+    }
   }
   timer = requestAnimationFrame(update);
 }
