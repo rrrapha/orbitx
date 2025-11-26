@@ -160,7 +160,7 @@ function update(timestamp) {
     const context = getContext();
     const originX = getScreenWidth() / 2 - getCenterX() / getPosFac();
     const originY = getScreenHeight() / 2 - getCenterY() / getPosFac();
-    context.strokeStyle = '#CCCCCC';
+    context.strokeStyle = '#666666';
     context.beginPath();
     context.moveTo(0, originY);
     context.lineTo(getScreenWidth(), originY);
