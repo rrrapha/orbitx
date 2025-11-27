@@ -77,6 +77,8 @@ function updateCenter() {
   const value = document.getElementById('center').value;
   if (value === '') {
     centerPlanet = null;
+    setCenterX(0);
+    setCenterY(0);
   } else {
     centerPlanet = parseInt(value);
   }
@@ -124,6 +126,18 @@ function init() {
   document.getElementById('axes-checkbox')
       .addEventListener('input', updateAxesEnable);
   updateAxesEnable();
+  let dragX = 0;
+  let dragY = 0;
+  let isDragging = false;
+  window.addEventListener('mousemove', (event) => {
+    if (isDragging && centerPlanet === null) {
+      setCenterX(getCenterX() - (event.offsetX - dragX) * getPosFac());
+      setCenterY(getCenterY() - (event.offsetY - dragY) * getPosFac());
+    }
+    dragX = event.offsetX;
+    dragY = event.offsetY;
+    isDragging = event.buttons !== 0;
+  });
   loadPreset(presets.value);
   timer = requestAnimationFrame(update);
 }
@@ -142,8 +156,6 @@ function update(timestamp) {
     updatePlanets();
   }
   if (centerPlanet === null) {
-    setCenterX(0);
-    setCenterY(0);
     setCenterTrace(null);
   } else {
     const planet = planets[centerPlanet];
