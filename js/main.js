@@ -132,6 +132,12 @@ function init() {
       window.removeEventListener('mousemove', mouseMove);
     });
   });
+  canvas.addEventListener('wheel', (event) => {
+    let slider = document.getElementById('zoom-slider');
+    let value = parseInt(slider.value) * (1 + event.deltaY * -0.001);
+    slider.value = value;
+    updateZoom();
+  }, {passive: true});
   loadPreset(presets.value);
   timer = requestAnimationFrame(update);
 }
