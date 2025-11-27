@@ -3,10 +3,7 @@ body {
   margin: 0px;
   overflow: hidden;
   color: white;
-  height: 100%;
-}
-html {
-  height: 100%;
+  width: 0;
 }
 * {
   font: 1em "Courier New", monospace;
