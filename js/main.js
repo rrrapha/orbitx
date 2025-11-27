@@ -126,17 +126,11 @@ function init() {
   document.getElementById('axes-checkbox')
       .addEventListener('input', updateAxesEnable);
   updateAxesEnable();
-  let dragX = 0;
-  let dragY = 0;
-  let isDragging = false;
   window.addEventListener('mousemove', (event) => {
-    if (isDragging && centerPlanet === null) {
-      setCenterX(getCenterX() - (event.offsetX - dragX) * getPosFac());
-      setCenterY(getCenterY() - (event.offsetY - dragY) * getPosFac());
+    if (event.buttons && centerPlanet === null) {
+      setCenterX(getCenterX() - event.movementX * getPosFac());
+      setCenterY(getCenterY() - event.movementY * getPosFac());
     }
-    dragX = event.offsetX;
-    dragY = event.offsetY;
-    isDragging = event.buttons !== 0;
   });
   loadPreset(presets.value);
   timer = requestAnimationFrame(update);

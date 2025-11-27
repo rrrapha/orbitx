@@ -10,6 +10,8 @@ html {
 }
 * {
   font: 1em "Courier New", monospace;
+  user-select: none;
+  -webkit-user-select: none;
 }
 #canvas {
   position: absolute;
