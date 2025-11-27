@@ -133,20 +133,28 @@ function init() {
     });
   });
   canvas.addEventListener('wheel', (event) => {
+    let oldX =
+        (event.offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
+    let oldY =
+        (event.offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
     let slider = document.getElementById('zoom-slider');
     let value = parseInt(slider.value) * (1 + event.deltaY * -0.001);
     slider.value = value;
     updateZoom();
+    let newX =
+        (event.offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
+    let newY =
+        (event.offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
+    setCenterX(getCenterX() + oldX - newX);
+    setCenterY(getCenterY() + oldY - newY);
   }, {passive: true});
   loadPreset(presets.value);
   timer = requestAnimationFrame(update);
 }
 
 function mouseMove(event) {
-  if (centerPlanet === null) {
-    setCenterX(getCenterX() - event.movementX * getPosFac());
-    setCenterY(getCenterY() - event.movementY * getPosFac());
-  }
+  setCenterX(getCenterX() - event.movementX * getPosFac());
+  setCenterY(getCenterY() - event.movementY * getPosFac());
 }
 
 let prevTimestamp;
