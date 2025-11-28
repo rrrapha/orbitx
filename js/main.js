@@ -133,6 +133,13 @@ function init() {
     });
   });
   canvas.addEventListener('wheel', (event) => {
+    if (event.shiftKey) {
+      let slider = document.getElementById('scale-slider');
+      let value = parseInt(slider.value) * Math.sqrt(1 + event.deltaY * -0.002);
+      slider.value = value;
+      updateScale();
+      return;
+    }
     let oldX =
         (event.offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
     let oldY =
