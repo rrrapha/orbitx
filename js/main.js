@@ -52,7 +52,7 @@ window.addEventListener('resize', updateScreenSize);
 function updateScale() {
   const scale = document.getElementById('scale-slider').value;
   document.getElementById('scale-num').textContent = scale;
-  setSizeFac((101 - scale) / 5);
+  setSizeFac(500 / scale);
 }
 
 function updateZoom() {
