@@ -128,7 +128,7 @@ function init() {
       .addEventListener('input', updateAxesEnable);
   updateAxesEnable();
 
-  Ui.registerDrag(canvas, drag, zoom);
+  Ui.register(canvas, drag, zoom);
 
   loadPreset(presets.value);
   timer = requestAnimationFrame(update);
@@ -136,23 +136,24 @@ function init() {
 
 function zoom(delta, offsetX, offsetY, shift) {
   if (shift) {
-    let slider = document.getElementById('scale-slider');
-    let value = parseInt(slider.value) * Math.sqrt(1 + delta * -0.002);
+    const slider = document.getElementById('scale-slider');
+    const value =
+        parseInt(slider.value) * Math.sqrt(1 + delta * -0.002);
     slider.value = value;
     updateScale();
     return;
   }
-  let oldX =
+  const oldX =
       (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
-  let oldY =
+  const oldY =
       (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
-  let slider = document.getElementById('zoom-slider');
-  let value = parseInt(slider.value) * (1 + delta * -0.001);
+  const slider = document.getElementById('zoom-slider');
+  const value = parseInt(slider.value) - delta * 0.01;
   slider.value = value;
   updateZoom();
-  let newX =
+  const newX =
       (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
-  let newY =
+  const newY =
       (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
   setCenterX(getCenterX() + oldX - newX);
   setCenterY(getCenterY() + oldY - newY);
