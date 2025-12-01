@@ -1,6 +1,7 @@
 'use strict';
 
 import {Planet} from './planet.js';
+import {Ui} from './ui.js';
 import {Ode} from './ode.js';
 import {setTraceLength, setCenterTrace, setCenterX, getCenterX, setCenterY, getCenterY, setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac, setPosFac, getPosFac} from './globals.js';
 
@@ -126,43 +127,36 @@ function init() {
   document.getElementById('axes-checkbox')
       .addEventListener('input', updateAxesEnable);
   updateAxesEnable();
-  canvas.addEventListener('mousedown', (event) => {
-    window.addEventListener('mousemove', mouseMove);
-    window.addEventListener('mouseup', (event) => {
-      window.removeEventListener('mousemove', mouseMove);
-    });
-  });
-  canvas.addEventListener('wheel', (event) => {
-    if (event.shiftKey) {
-      const slider = document.getElementById('scale-slider');
-      const value =
-          parseInt(slider.value) * Math.sqrt(1 + event.deltaY * -0.002);
-      slider.value = value;
-      updateScale();
-      return;
-    }
-    const oldX =
-        (event.offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
-    const oldY =
-        (event.offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
-    const slider = document.getElementById('zoom-slider');
-    const value = parseInt(slider.value) - event.deltaY * 0.01;
-    slider.value = value;
-    updateZoom();
-    const newX =
-        (event.offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
-    const newY =
-        (event.offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
-    setCenterX(getCenterX() + oldX - newX);
-    setCenterY(getCenterY() + oldY - newY);
-  }, {passive: true});
+
+  Ui.register(canvas, drag, zoom);
+
   loadPreset(presets.value);
   timer = requestAnimationFrame(update);
 }
 
-function mouseMove(event) {
-  setCenterX(getCenterX() - event.movementX * getPosFac());
-  setCenterY(getCenterY() - event.movementY * getPosFac());
+function zoom(delta, offsetX, offsetY, shift) {
+  if (shift) {
+    const slider = document.getElementById('scale-slider');
+    const value = parseInt(slider.value) * Math.sqrt(1 + delta * -0.002);
+    slider.value = value;
+    updateScale();
+    return;
+  }
+  const oldX = (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
+  const oldY = (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
+  const slider = document.getElementById('zoom-slider');
+  const value = parseInt(slider.value) - delta * 0.01;
+  slider.value = value;
+  updateZoom();
+  const newX = (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
+  const newY = (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
+  setCenterX(getCenterX() + oldX - newX);
+  setCenterY(getCenterY() + oldY - newY);
+}
+
+function drag(movementX, movementY) {
+  setCenterX(getCenterX() - movementX * getPosFac());
+  setCenterY(getCenterY() - movementY * getPosFac());
 }
 
 let prevTimestamp;
