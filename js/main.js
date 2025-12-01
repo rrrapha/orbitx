@@ -134,6 +134,7 @@ function init() {
   timer = requestAnimationFrame(update);
 }
 
+let zoomValue = 50;
 function zoom(delta, offsetX, offsetY, shift) {
   if (shift) {
     const slider = document.getElementById('scale-slider');
@@ -145,8 +146,9 @@ function zoom(delta, offsetX, offsetY, shift) {
   const oldX = (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
   const oldY = (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
   const slider = document.getElementById('zoom-slider');
-  const value = parseInt(slider.value) - delta * 0.01;
-  slider.value = value;
+  zoomValue = zoomValue - delta * 0.01;
+
+  slider.value = parseInt(zoomValue);
   updateZoom();
   const newX = (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
   const newY = (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
