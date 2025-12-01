@@ -1,97 +1,88 @@
 'use strict';
-/*
- *matlab style ode-functions M[row][col]
- */
 
-export const Ode = {
-  algorithm: null,
-  // ode:function(func, low, high, initcond, steps){
-  //    return Ode.ode_(func, low, high, initcond, steps);
-  // },
+export {Ode};
 
-  ode: function(func, low, high, initcond, steps) {
+class Ode {
+  static algorithm = Ode.integ_rk4;
+
+  static ode(func, low, high, initcond, steps) {
     const L = initcond.length;
     const h = (high - low) / steps;
     for (let j = 0; j < steps; ++j) {
-      Ode.integ_rk4(func, low, h, initcond, L);
+      Ode.algorithm(func, low, h, initcond, L);
       low += h;
     }
     return initcond;
-  },
+  }
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  integ_euler: function(func, t, h, values, L) {
+  static integ_euler(func, t, h, values, L) {
     const ms = func(t, values);
     for (let i = 0; i < L; i++) {
       values[i] += h * ms[i];
     }
-  },
-  //
-  integ_rk2: function(func, t, h, values, L, dir) {
+  }
+
+  static integ_rk2(func, t, h, values, L) {
     const k1 = [];
     const v_ = [];
     let m = func(t, values);
-    const hdir = h * dir;
     for (let i = 0; i < L; i++) {
-      const k1i = hdir * m[i];
+      const k1i = h * m[i];
       k1[i] = k1i;
       v_[i] = values[i] + k1i;
     }
-    t += hdir;
+    t += h;
     m = func(t, v_);
     for (let i = 0; i < L; i++) {
-      const k2i = hdir * m[i];
+      const k2i = h * m[i];
       values[i] += (k1[i] + k2i) / 2;
     }
-  },
-  integ_rk2_heun: function(func, t, h, values, L, dir) {
+  }
+
+  static integ_rk2_heun(func, t, h, values, L) {
     const predict = [];
     const m1 = func(t, values);
-    const hdir = h * dir;
-    const hdir2 = hdir / 2;
+    const hdir2 = h / 2;
     for (let i = 0; i < L; i++) {
       predict[i] = values[i] + h * m1[i];
     }
-    t += hdir;
+    t += h;
     const m2 = func(t, predict);
     for (let i = 0; i < L; i++) {
       values[i] += hdir2 * (m1[i] + m2[i]);
     }
-  },
-  integ_rk4: function(func, t, h, values, L) {
+  }
+
+  static integ_rk4(func, t, h, values, L) {
     const k1 = [];
     const k2 = [];
     const k3 = [];
     const k4 = [];
     const k1v = [];
-    // var k2v=[];
-    // var k3v=[];
-    // var k4v=[];
     let m = func(t, values);
-    const hdir = h;
-    const hdir2 = hdir / 2;
+    const h2 = h / 2;
     for (let i = 0; i < L; i++) {
-      const k1i = hdir * m[i];
+      const k1i = h * m[i];
       k1[i] = k1i;
       k1v[i] = values[i] + k1i / 2;
     }
-    t += hdir2;
+    t += h2;
     m = func(t, k1v);
     for (let i = 0; i < L; i++) {
-      const k2i = hdir * m[i];
+      const k2i = h * m[i];
       k2[i] = k2i;
       k1v[i] = values[i] + k2i / 2;
     }
     m = func(t, k1v);
     for (let i = 0; i < L; i++) {
-      const k3i = hdir * m[i];
+      const k3i = h * m[i];
       k3[i] = k3i;
       k1v[i] = values[i] + k3i;
     }
-    t += hdir2;
+    t += h2;
     m = func(t, k1v);
     for (let i = 0; i < L; i++) {
-      const k4i = hdir * m[i];
+      const k4i = h * m[i];
       k4[i] = k4i;
       // k1v[i]=values[i]+k4i;
     }
