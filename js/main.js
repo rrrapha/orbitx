@@ -58,7 +58,7 @@ function updateScale() {
 function updateZoom() {
   const zoom = document.getElementById('zoom-slider').value;
   document.getElementById('zoom-num').textContent = zoom;
-  setPosFac(50 / zoom);
+  setPosFac(50 / Math.pow(1.1, zoom));
 }
 
 function updateTime() {
@@ -145,7 +145,7 @@ function init() {
     let oldY =
         (event.offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
     let slider = document.getElementById('zoom-slider');
-    let value = parseInt(slider.value) * (1 + event.deltaY * -0.001);
+    let value = parseInt(slider.value) - event.deltaY * 0.01;
     slider.value = value;
     updateZoom();
     let newX =
