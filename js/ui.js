@@ -49,13 +49,13 @@ class Ui {
     // If two pointers are down, check for pinch gestures
     if (evCache.length === 2) {
       // Calculate the distance between the two pointers
-      const diffX = Math.abs(evCache[0].clientX - evCache[1].clientX);
-      const diffY = Math.abs(evCache[0].clientY - evCache[1].clientY);
+      const diffX = evCache[0].clientX - evCache[1].clientX;
+      const diffY = evCache[0].clientY - evCache[1].clientY;
       const curDiff = Math.sqrt(diffX * diffX + diffY * diffY);
       if (prevDiff > 0) {
-        let delta = (prevDiff - curDiff) * 10;
-        let offsetX = (evCache[0].offsetX + evCache[1].offsetX) / 2;
-        let offsetY = (evCache[0].offsetY + evCache[1].offsetY) / 2;
+        const delta = (prevDiff - curDiff) * 10;
+        const offsetX = (evCache[0].offsetX + evCache[1].offsetX) / 2;
+        const offsetY = (evCache[0].offsetY + evCache[1].offsetY) / 2;
         Ui.zoomCallback(delta, offsetX, offsetY, false);
       }
       // Cache the distance for the next move event
