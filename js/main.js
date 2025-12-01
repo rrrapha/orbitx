@@ -146,7 +146,7 @@ function zoom(delta, offsetX, offsetY, shift) {
   const oldX = (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
   const oldY = (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
   const slider = document.getElementById('zoom-slider');
-  zoomValue = zoomValue - delta * 0.01;
+  zoomValue -= delta * 0.01;
 
   slider.value = parseInt(zoomValue);
   updateZoom();
