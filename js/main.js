@@ -134,23 +134,24 @@ function init() {
   });
   canvas.addEventListener('wheel', (event) => {
     if (event.shiftKey) {
-      let slider = document.getElementById('scale-slider');
-      let value = parseInt(slider.value) * Math.sqrt(1 + event.deltaY * -0.002);
+      const slider = document.getElementById('scale-slider');
+      const value =
+          parseInt(slider.value) * Math.sqrt(1 + event.deltaY * -0.002);
       slider.value = value;
       updateScale();
       return;
     }
-    let oldX =
+    const oldX =
         (event.offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
-    let oldY =
+    const oldY =
         (event.offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
-    let slider = document.getElementById('zoom-slider');
-    let value = parseInt(slider.value) - event.deltaY * 0.01;
+    const slider = document.getElementById('zoom-slider');
+    const value = parseInt(slider.value) - event.deltaY * 0.01;
     slider.value = value;
     updateZoom();
-    let newX =
+    const newX =
         (event.offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
-    let newY =
+    const newY =
         (event.offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
     setCenterX(getCenterX() + oldX - newX);
     setCenterY(getCenterY() + oldY - newY);
