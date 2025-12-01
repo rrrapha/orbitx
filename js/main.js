@@ -137,24 +137,19 @@ function init() {
 function zoom(delta, offsetX, offsetY, shift) {
   if (shift) {
     const slider = document.getElementById('scale-slider');
-    const value =
-        parseInt(slider.value) * Math.sqrt(1 + delta * -0.002);
+    const value = parseInt(slider.value) * Math.sqrt(1 + delta * -0.002);
     slider.value = value;
     updateScale();
     return;
   }
-  const oldX =
-      (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
-  const oldY =
-      (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
+  const oldX = (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
+  const oldY = (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
   const slider = document.getElementById('zoom-slider');
   const value = parseInt(slider.value) - delta * 0.01;
   slider.value = value;
   updateZoom();
-  const newX =
-      (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
-  const newY =
-      (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
+  const newX = (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
+  const newY = (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
   setCenterX(getCenterX() + oldX - newX);
   setCenterY(getCenterY() + oldY - newY);
 }

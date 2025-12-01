@@ -14,12 +14,12 @@ class Ui {
     Ui.dragCallback = dragCallback;
     Ui.zoomCallback = zoomCallback;
 
-    //mouse wheel
+    // mouse wheel
     elem.addEventListener('wheel', (event) => {
       zoomCallback(event.deltaY, event.offsetX, event.offsetY, event.shiftKey);
     }, {passive: true});
 
-    //pointer
+    // pointer
     elem.addEventListener('pointerdown', Ui.pointerDown);
   }
 
@@ -42,7 +42,7 @@ class Ui {
   static pointerMove(event) {
     // Find this event in the cache and update its record with this event
     const index = evCache.findIndex(
-      (cachedEv) => cachedEv.pointerId === event.pointerId,
+        (cachedEv) => cachedEv.pointerId === event.pointerId,
     );
     evCache[index] = event;
 
@@ -62,7 +62,9 @@ class Ui {
       prevDiff = curDiff;
     } else if (evCache.length === 1) {
       if (Ui.previousPosition) {
-        Ui.dragCallback(event.clientX - Ui.previousPosition[0], event.clientY - Ui.previousPosition[1]);
+        Ui.dragCallback(
+            event.clientX - Ui.previousPosition[0],
+            event.clientY - Ui.previousPosition[1]);
       }
       Ui.previousPosition = [event.clientX, event.clientY];
     }
@@ -71,9 +73,8 @@ class Ui {
   static removeEvent(ev) {
     // Remove this event from the target's cache
     const index = evCache.findIndex(
-      (cachedEv) => cachedEv.pointerId === ev.pointerId,
+        (cachedEv) => cachedEv.pointerId === ev.pointerId,
     );
     evCache.splice(index, 1);
   }
-
 }
