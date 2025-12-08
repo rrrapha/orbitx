@@ -65,7 +65,7 @@ function updateZoom() {
 function updateTime() {
   const time = document.getElementById('time-slider').value;
   document.getElementById('time-num').textContent = time;
-  simulationDelay = 11 - time;
+  simulationDelay = 10 / time;
 }
 
 function updateTrace() {
