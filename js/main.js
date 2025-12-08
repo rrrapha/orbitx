@@ -56,10 +56,20 @@ function updateScale() {
   setSizeFac(500 / scale);
 }
 
+/*
+ * This is the callback function from the js event listener (slider.oninput)
+ */
+function updateZoomHandler(event) {
+  zoomValue = event.target.value;
+  updateZoom();
+}
+
+/*
+ * This function is called from updateZoomHandler() and zoom()
+ */
 function updateZoom() {
-  const zoom = document.getElementById('zoom-slider').value;
-  document.getElementById('zoom-num').textContent = zoom;
-  setPosFac(50 / Math.pow(1.1, zoom));
+  document.getElementById('zoom-num').textContent = parseInt(zoomValue);
+  setPosFac(50 / Math.pow(1.1, zoomValue));
 }
 
 function updateTime() {
@@ -110,7 +120,7 @@ function init() {
   document.getElementById('scale-slider')
       .addEventListener('input', updateScale);
   updateScale();
-  document.getElementById('zoom-slider').addEventListener('input', updateZoom);
+  document.getElementById('zoom-slider').addEventListener('input', updateZoomHandler);
   updateZoom();
   document.getElementById('time-slider').addEventListener('input', updateTime);
   updateTime();
@@ -135,6 +145,10 @@ function init() {
 }
 
 let zoomValue = 50;
+
+/*
+ * This is the callback function from the Ui class
+ */
 function zoom(delta, offsetX, offsetY, shift) {
   if (shift) {
     const slider = document.getElementById('scale-slider');
@@ -147,7 +161,6 @@ function zoom(delta, offsetX, offsetY, shift) {
   const oldY = (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
   const slider = document.getElementById('zoom-slider');
   zoomValue -= delta * 0.01;
-
   slider.value = parseInt(zoomValue);
   updateZoom();
   const newX = (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
