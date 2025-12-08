@@ -60,7 +60,7 @@ function updateScale() {
  * This is the callback function from the js event listener (slider.oninput)
  */
 function updateZoomHandler(event) {
-  zoomValue = event.target.value;
+  zoomValue = parseInt(event.target.value);
   updateZoom();
 }
 
@@ -68,7 +68,7 @@ function updateZoomHandler(event) {
  * This function is called from updateZoomHandler() and zoom()
  */
 function updateZoom() {
-  document.getElementById('zoom-num').textContent = parseInt(zoomValue);
+  document.getElementById('zoom-num').textContent = zoomValue;
   setPosFac(50 / Math.pow(1.1, zoomValue));
 }
 
@@ -120,7 +120,8 @@ function init() {
   document.getElementById('scale-slider')
       .addEventListener('input', updateScale);
   updateScale();
-  document.getElementById('zoom-slider').addEventListener('input', updateZoomHandler);
+  document.getElementById('zoom-slider')
+      .addEventListener('input', updateZoomHandler);
   updateZoom();
   document.getElementById('time-slider').addEventListener('input', updateTime);
   updateTime();
@@ -161,7 +162,7 @@ function zoom(delta, offsetX, offsetY, shift) {
   const oldY = (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
   const slider = document.getElementById('zoom-slider');
   zoomValue -= delta * 0.01;
-  slider.value = parseInt(zoomValue);
+  slider.value = zoomValue;
   updateZoom();
   const newX = (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
   const newY = (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
