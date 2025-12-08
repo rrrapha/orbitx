@@ -71,7 +71,7 @@ function updateTime() {
 function updateTrace() {
   const trace = document.getElementById('trace-slider').value;
   document.getElementById('trace-num').textContent = trace;
-  setTraceLength(trace);
+  setTraceLength(parseInt(trace));
 }
 
 function updateCenter() {
