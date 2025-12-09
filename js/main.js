@@ -62,7 +62,8 @@ function updateZoomHandler(event) {
 }
 
 function updateZoom() {
-  document.getElementById('zoom-num').textContent = zoomValue;
+  const zoom = document.getElementById('zoom-slider').value;
+  document.getElementById('zoom-num').textContent = zoom;
   setPosFac(50 / Math.pow(1.1, zoomValue));
 }
 
@@ -155,6 +156,12 @@ function zoomCallback(delta, offsetX, offsetY, shift) {
   const oldY = (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
   const slider = document.getElementById('zoom-slider');
   zoomValue -= delta * 0.01;
+  if (zoomValue < slider.min) {
+    zoomValue = parseInt(slider.min);
+  }
+  if (zoomValue > slider.max) {
+    zoomValue = parseInt(slider.max);
+  }
   slider.value = zoomValue;
   updateZoom();
   const newX = (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
