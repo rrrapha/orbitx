@@ -57,7 +57,7 @@ function updateScaleHandler() {
 }
 
 function updateZoomHandler(event) {
-  zoomValue = parseInt(event.target.value);
+  zoomValue = Number(event.target.value);
   updateZoom();
 }
 
@@ -86,7 +86,7 @@ function updateCenterHandler() {
     setCenterX(0);
     setCenterY(0);
   } else {
-    centerPlanet = parseInt(value);
+    centerPlanet = Number(value);
   }
 }
 
@@ -147,7 +147,7 @@ let zoomValue = 50;
 function zoomCallback(delta, offsetX, offsetY, shift) {
   if (shift) {
     const slider = document.getElementById('scale-slider');
-    const value = parseInt(slider.value) * Math.sqrt(1 + delta * -0.002);
+    const value = Number(slider.value) * Math.sqrt(1 + delta * -0.002);
     slider.value = value;
     updateScaleHandler();
     return;
@@ -157,10 +157,10 @@ function zoomCallback(delta, offsetX, offsetY, shift) {
   const slider = document.getElementById('zoom-slider');
   zoomValue -= delta * 0.01;
   if (zoomValue < slider.min) {
-    zoomValue = parseInt(slider.min);
+    zoomValue = Number(slider.min);
   }
   if (zoomValue > slider.max) {
-    zoomValue = parseInt(slider.max);
+    zoomValue = Number(slider.max);
   }
   slider.value = zoomValue;
   updateZoom();
