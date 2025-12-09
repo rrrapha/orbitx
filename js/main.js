@@ -36,11 +36,11 @@ function loadPreset(preset) {
       planet.textContent = planets[i].name;
       center.appendChild(planet);
     }
-    updateCenter();
+    updateCenterHandler();
   });
 }
 
-function updateScreenSize() {
+function resizeHandler() {
   setScreenWidth(window.innerWidth);
   setScreenHeight(window.innerHeight);
   const canvas = document.getElementById('canvas');
@@ -48,9 +48,9 @@ function updateScreenSize() {
   canvas.setAttribute('height', getScreenHeight());
 }
 
-window.addEventListener('resize', updateScreenSize);
+window.addEventListener('resize', resizeHandler);
 
-function updateScale() {
+function updateScaleHandler() {
   const scale = document.getElementById('scale-slider').value;
   document.getElementById('scale-num').textContent = scale;
   setSizeFac(500 / scale);
@@ -65,26 +65,26 @@ function updateZoomHandler(event) {
 }
 
 /*
- * This function is called from updateZoomHandler() and zoom()
+ * This function is called from updateZoomHandler() and zoomCallback()
  */
 function updateZoom() {
   document.getElementById('zoom-num').textContent = zoomValue;
   setPosFac(50 / Math.pow(1.1, zoomValue));
 }
 
-function updateTime() {
+function updateTimeHandler() {
   const time = document.getElementById('time-slider').value;
   document.getElementById('time-num').textContent = time;
   simulationDelay = 11 - time;
 }
 
-function updateTrace() {
+function updateTraceHandler() {
   const trace = document.getElementById('trace-slider').value;
   document.getElementById('trace-num').textContent = trace;
   setTraceLength(trace);
 }
 
-function updateCenter() {
+function updateCenterHandler() {
   const value = document.getElementById('center').value;
   if (value === '') {
     centerPlanet = null;
@@ -95,15 +95,15 @@ function updateCenter() {
   }
 }
 
-function updateTraceStyle() {
+function updateTraceStyleHandler() {
   accurateTraces = document.getElementById('accurate-traces').checked;
 }
 
-function updateLabelsEnable() {
+function updateLabelsEnableHandler() {
   showLabels = document.getElementById('labels-checkbox').checked;
 }
 
-function updateAxesEnable() {
+function updateAxesEnableHandler() {
   showAxes = document.getElementById('axes-checkbox').checked;
 }
 
@@ -111,35 +111,37 @@ document.addEventListener('DOMContentLoaded', init);
 function init() {
   const canvas = document.getElementById('canvas');
   setContext(canvas.getContext('2d'));
-  updateScreenSize();
+  resizeHandler();
   fpsElement = document.getElementById('fps');
   const presets = document.getElementById('presets');
   presets.addEventListener('change', (event) => {
     loadPreset(event.target.value);
   });
   document.getElementById('scale-slider')
-      .addEventListener('input', updateScale);
-  updateScale();
+      .addEventListener('input', updateScaleHandler);
+  updateScaleHandler();
   document.getElementById('zoom-slider')
       .addEventListener('input', updateZoomHandler);
   updateZoom();
-  document.getElementById('time-slider').addEventListener('input', updateTime);
-  updateTime();
+  document.getElementById('time-slider')
+      .addEventListener('input', updateTimeHandler);
+  updateTimeHandler();
   document.getElementById('trace-slider')
-      .addEventListener('input', updateTrace);
-  updateTrace();
-  document.getElementById('center').addEventListener('input', updateCenter);
+      .addEventListener('input', updateTraceHandler);
+  updateTraceHandler();
+  document.getElementById('center').addEventListener(
+      'input', updateCenterHandler);
   document.getElementById('accurate-traces')
-      .addEventListener('input', updateTraceStyle);
-  updateTraceStyle();
+      .addEventListener('input', updateTraceStyleHandler);
+  updateTraceStyleHandler();
   document.getElementById('labels-checkbox')
-      .addEventListener('input', updateLabelsEnable);
-  updateLabelsEnable();
+      .addEventListener('input', updateLabelsEnableHandler);
+  updateLabelsEnableHandler();
   document.getElementById('axes-checkbox')
-      .addEventListener('input', updateAxesEnable);
-  updateAxesEnable();
+      .addEventListener('input', updateAxesEnableHandler);
+  updateAxesEnableHandler();
 
-  Ui.register(canvas, drag, zoom);
+  Ui.register(canvas, dragCallback, zoomCallback);
 
   loadPreset(presets.value);
   timer = requestAnimationFrame(update);
@@ -150,12 +152,12 @@ let zoomValue = 50;
 /*
  * This is the callback function from the Ui class
  */
-function zoom(delta, offsetX, offsetY, shift) {
+function zoomCallback(delta, offsetX, offsetY, shift) {
   if (shift) {
     const slider = document.getElementById('scale-slider');
     const value = parseInt(slider.value) * Math.sqrt(1 + delta * -0.002);
     slider.value = value;
-    updateScale();
+    updateScaleHandler();
     return;
   }
   const oldX = (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
@@ -170,7 +172,7 @@ function zoom(delta, offsetX, offsetY, shift) {
   setCenterY(getCenterY() + oldY - newY);
 }
 
-function drag(movementX, movementY) {
+function dragCallback(movementX, movementY) {
   setCenterX(getCenterX() - movementX * getPosFac());
   setCenterY(getCenterY() - movementY * getPosFac());
 }
