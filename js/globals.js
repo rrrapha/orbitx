@@ -1,83 +1,88 @@
 'use strict';
 
-let context;
-let screenWidth = 500;
-let screenHeight = 500;
-let sizeFac = 10;
-let posFac = 1;
-let centerX = 0;
-let centerY = 0;
-let centerTrace = null;
-let traceLength = 64;
+export {Globals};
 
-export function getTraceLength() {
-  return traceLength;
-}
+class Globals {
+    static context;
+    static screenWidth = 500;
+    static screenHeight = 500;
+    static sizeFac = 10;
+    static posFac = 1;
+    static centerX = 0;
+    static centerY = 0;
+    static centerTrace = null;
+    static traceLength = 64;
 
-export function getCenterX() {
-  return centerX;
-}
+    static getTraceLength() {
+      return Globals.traceLength;
+    }
 
-export function getCenterY() {
-  return centerY;
-}
+    static getCenterX() {
+      return Globals.centerX;
+    }
 
-export function getCenterTrace() {
-  return centerTrace;
-}
+    static getCenterY() {
+      return Globals.centerY;
+    }
 
-export function getContext() {
-  return context;
-}
+    static getCenterTrace() {
+      return Globals.centerTrace;
+    }
 
-export function getScreenWidth() {
-  return screenWidth;
-}
+    static getContext() {
+      return Globals.context;
+    }
 
-export function getScreenHeight() {
-  return screenHeight;
-}
+    static getScreenWidth() {
+      return Globals.screenWidth;
+    }
 
-export function getSizeFac() {
-  return sizeFac * posFac;
-}
+    static getScreenHeight() {
+      return Globals.screenHeight;
+    }
 
-export function getPosFac() {
-  return posFac * 2000;
-}
+    static getSizeFac() {
+      return Globals.sizeFac * Globals.posFac;
+    }
 
-export function setTraceLength(newTraceLength) {
-  traceLength = newTraceLength;
-}
+    static getPosFac() {
+      return Globals.posFac * 2000;
+    }
 
-export function setCenterX(newCenterX) {
-  centerX = newCenterX;
-}
+    static setTraceLength(newTraceLength) {
+      Globals.traceLength = newTraceLength;
+    }
 
-export function setCenterY(newCenterY) {
-  centerY = newCenterY;
-}
+    static setCenterX(newCenterX) {
+      Globals.centerX = newCenterX;
+    }
 
-export function setCenterTrace(newCenterTrace) {
-  centerTrace = newCenterTrace;
-}
+    static setCenterY(newCenterY) {
+      Globals.centerY = newCenterY;
+    }
 
-export function setContext(newContext) {
-  context = newContext;
-}
+    static setCenterTrace(newCenterTrace) {
+      Globals.centerTrace = newCenterTrace;
+    }
 
-export function setScreenWidth(newScreenWidth) {
-  screenWidth = newScreenWidth;
-}
+    static setContext(newContext) {
+      Globals.context = newContext;
+    }
 
-export function setScreenHeight(newScreenHeight) {
-  screenHeight = newScreenHeight;
-}
+    static setScreenWidth(newScreenWidth) {
+      Globals.screenWidth = newScreenWidth;
+    }
 
-export function setSizeFac(newSizeFac) {
-  sizeFac = newSizeFac;
-}
+    static setScreenHeight(newScreenHeight) {
+      Globals.screenHeight = newScreenHeight;
+    }
 
-export function setPosFac(newPosFac) {
-  posFac = newPosFac;
+    static setSizeFac(newSizeFac) {
+      Globals.sizeFac = newSizeFac;
+    }
+
+    static setPosFac(newPosFac) {
+      Globals.posFac = newPosFac;
+    }
+
 }

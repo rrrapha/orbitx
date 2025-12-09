@@ -1,7 +1,7 @@
 'use strict';
 
 import {circle} from './util.js';
-import {getTraceLength, getCenterTrace, getCenterX, getCenterY, getPosFac, getSizeFac, getScreenWidth, getScreenHeight, getContext} from './globals.js';
+import {Globals} from './globals.js';
 
 export {Planet};
 
@@ -26,6 +26,7 @@ class Planet {
     this.speed = Math.sqrt(initdir[0] * initdir[0] + initdir[1] * initdir[1]);
     this.color = color;
     this.size = Math.pow(mass / ((4 / 3) * Math.PI), 1 / 3);
+    this.context = Globals.getContext();
     for (let i = 0; i < TRACE_LENGTH; i++) {
       this.trace[i] = [initpos[0], initpos[1]];
     }
@@ -38,8 +39,8 @@ class Planet {
   move(x, y) {
     // move planet to pixel
     this.pos = [
-      (x - getScreenWidth() / 2) * getPosFac() + getCenterX(),
-      (y - getScreenHeight() / 2) * getPosFac() + getCenterY(),
+      (x - Globals.getScreenWidth() / 2) * Globals.getPosFac() + Globals.getCenterX(),
+      (y - Globals.getScreenHeight() / 2) * Globals.getPosFac() + Globals.getCenterY(),
     ];
     this.vel = [0, 0];
     this.speed = 0;
@@ -74,44 +75,43 @@ class Planet {
 
   draw() {
     circle(
-        (this.pos[0] - getCenterX()) / getPosFac() + getScreenWidth() / 2,
-        (this.pos[1] - getCenterY()) / getPosFac() + getScreenHeight() / 2,
-        this.size / getSizeFac(), this.color + 'C0', this.color);
-    if (getTraceLength() < 1) {
+        this.context,
+        (this.pos[0] - Globals.getCenterX()) / Globals.getPosFac() + Globals.getScreenWidth() / 2,
+        (this.pos[1] - Globals.getCenterY()) / Globals.getPosFac() + Globals.getScreenHeight() / 2,
+        this.size / Globals.getSizeFac(), this.color + 'C0', this.color);
+    if (Globals.getTraceLength() < 1) {
       return;
     }
     // draw traces
-    const context = getContext();
-    context.strokeStyle = this.color;
-    context.beginPath();
-    let centerTrace = getCenterTrace();
+    this.context.strokeStyle = this.color;
+    this.context.beginPath();
+    let centerTrace = Globals.getCenterTrace();
     if (centerTrace === null) {
-      centerTrace = Array(TRACE_LENGTH).fill([getCenterX(), getCenterY()]);
+      centerTrace = Array(TRACE_LENGTH).fill([Globals.getCenterX(), Globals.getCenterY()]);
     }
-    const traceSlice = this.trace.slice(0, getTraceLength());
+    const traceSlice = this.trace.slice(0, Globals.getTraceLength());
     const trace = traceSlice.map(
         ([p0, p1], i) =>
-            [(p0 - centerTrace[i][0]) / getPosFac() + getScreenWidth() / 2,
-             (p1 - centerTrace[i][1]) / getPosFac() + getScreenHeight() / 2]);
-    context.moveTo(trace[0][0], trace[0][1]);
+            [(p0 - centerTrace[i][0]) / Globals.getPosFac() + Globals.getScreenWidth() / 2,
+             (p1 - centerTrace[i][1]) / Globals.getPosFac() + Globals.getScreenHeight() / 2]);
+    this.context.moveTo(trace[0][0], trace[0][1]);
     for (let i = 1; i < trace.length; i++) {
-      context.lineTo(trace[i][0], trace[i][1]);
+      this.context.lineTo(trace[i][0], trace[i][1]);
     }
-    context.stroke();
-    context.closePath();
+    this.context.stroke();
+    this.context.closePath();
   }
 
   drawLabel() {
-    const context = getContext();
-    context.font = '1em "Courier New", monospace';
-    context.fillStyle = '#EEEEEE';
-    context.textBaseline = 'hanging';
-    const radius = this.size / getSizeFac();
-    context.fillText(
+    this.context.font = '1em "Courier New", monospace';
+    this.context.fillStyle = '#EEEEEE';
+    this.context.textBaseline = 'hanging';
+    const radius = this.size / Globals.getSizeFac();
+    this.context.fillText(
         this.name,
-        (this.pos[0] - getCenterX()) / getPosFac() + getScreenWidth() / 2 +
+        (this.pos[0] - Globals.getCenterX()) / Globals.getPosFac() + Globals.getScreenWidth() / 2 +
             radius,
-        (this.pos[1] - getCenterY()) / getPosFac() + getScreenHeight() / 2 +
+        (this.pos[1] - Globals.getCenterY()) / Globals.getPosFac() + Globals.getScreenHeight() / 2 +
             radius,
     );
   }

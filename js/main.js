@@ -3,7 +3,7 @@
 import {Planet} from './planet.js';
 import {Ui} from './ui.js';
 import {Ode} from './ode.js';
-import {setTraceLength, setCenterTrace, setCenterX, getCenterX, setCenterY, getCenterY, setContext, getContext, setScreenWidth, getScreenWidth, setScreenHeight, getScreenHeight, setSizeFac, setPosFac, getPosFac} from './globals.js';
+import {Globals} from './globals.js';
 
 // CONSTANTS
 const UNIT_M = 1000000;  // meter
@@ -41,11 +41,11 @@ function loadPreset(preset) {
 }
 
 function resizeHandler() {
-  setScreenWidth(window.innerWidth);
-  setScreenHeight(window.innerHeight);
+  Globals.setScreenWidth(window.innerWidth);
+  Globals.setScreenHeight(window.innerHeight);
   const canvas = document.getElementById('canvas');
-  canvas.setAttribute('width', getScreenWidth());
-  canvas.setAttribute('height', getScreenHeight());
+  canvas.setAttribute('width', Globals.getScreenWidth());
+  canvas.setAttribute('height', Globals.getScreenHeight());
 }
 
 window.addEventListener('resize', resizeHandler);
@@ -53,7 +53,7 @@ window.addEventListener('resize', resizeHandler);
 function updateScaleHandler() {
   const scale = document.getElementById('scale-slider').value;
   document.getElementById('scale-num').textContent = scale;
-  setSizeFac(500 / scale);
+  Globals.setSizeFac(500 / scale);
 }
 
 function updateZoomHandler(event) {
@@ -64,7 +64,7 @@ function updateZoomHandler(event) {
 function updateZoom() {
   const zoom = document.getElementById('zoom-slider').value;
   document.getElementById('zoom-num').textContent = zoom;
-  setPosFac(50 / Math.pow(1.1, zoomValue));
+  Globals.setPosFac(50 / Math.pow(1.1, zoomValue));
 }
 
 function updateTimeHandler() {
@@ -76,15 +76,15 @@ function updateTimeHandler() {
 function updateTraceHandler() {
   const trace = document.getElementById('trace-slider').value;
   document.getElementById('trace-num').textContent = trace;
-  setTraceLength(parseInt(trace));
+  Globals.setTraceLength(parseInt(trace));
 }
 
 function updateCenterHandler() {
   const value = document.getElementById('center').value;
   if (value === '') {
     centerPlanet = null;
-    setCenterX(0);
-    setCenterY(0);
+    Globals.setCenterX(0);
+    Globals.setCenterY(0);
   } else {
     centerPlanet = Number(value);
   }
@@ -105,7 +105,7 @@ function updateAxesEnableHandler() {
 document.addEventListener('DOMContentLoaded', init);
 function init() {
   const canvas = document.getElementById('canvas');
-  setContext(canvas.getContext('2d'));
+  Globals.setContext(canvas.getContext('2d'));
   resizeHandler();
   fpsElement = document.getElementById('fps');
   const presets = document.getElementById('presets');
@@ -152,8 +152,8 @@ function zoomCallback(delta, offsetX, offsetY, shift) {
     updateScaleHandler();
     return;
   }
-  const oldX = (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
-  const oldY = (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
+  const oldX = (offsetX - Globals.getScreenWidth() / 2) * Globals.getPosFac() + Globals.getCenterX();
+  const oldY = (offsetY - Globals.getScreenHeight() / 2) * Globals.getPosFac() + Globals.getCenterY();
   const slider = document.getElementById('zoom-slider');
   zoomValue -= delta * 0.01;
   if (zoomValue < slider.min) {
@@ -164,15 +164,15 @@ function zoomCallback(delta, offsetX, offsetY, shift) {
   }
   slider.value = zoomValue;
   updateZoom();
-  const newX = (offsetX - getScreenWidth() / 2) * getPosFac() + getCenterX();
-  const newY = (offsetY - getScreenHeight() / 2) * getPosFac() + getCenterY();
-  setCenterX(getCenterX() + oldX - newX);
-  setCenterY(getCenterY() + oldY - newY);
+  const newX = (offsetX - Globals.getScreenWidth() / 2) * Globals.getPosFac() + Globals.getCenterX();
+  const newY = (offsetY - Globals.getScreenHeight() / 2) * Globals.getPosFac() + Globals.getCenterY();
+  Globals.setCenterX(Globals.getCenterX() + oldX - newX);
+  Globals.setCenterY(Globals.getCenterY() + oldY - newY);
 }
 
 function dragCallback(movementX, movementY) {
-  setCenterX(getCenterX() - movementX * getPosFac());
-  setCenterY(getCenterY() - movementY * getPosFac());
+  Globals.setCenterX(Globals.getCenterX() - movementX * Globals.getPosFac());
+  Globals.setCenterY(Globals.getCenterY() - movementY * Globals.getPosFac());
 }
 
 let prevTimestamp;
@@ -189,30 +189,30 @@ function update(timestamp) {
     updatePlanets();
   }
   if (centerPlanet === null) {
-    setCenterTrace(null);
+    Globals.setCenterTrace(null);
   } else {
     const planet = planets[centerPlanet];
     const pos = planet.pos;
-    setCenterX(pos[0]);
-    setCenterY(pos[1]);
+    Globals.setCenterX(pos[0]);
+    Globals.setCenterY(pos[1]);
     if (accurateTraces) {
-      setCenterTrace(planet.trace);
+      Globals.setCenterTrace(planet.trace);
     } else {
-      setCenterTrace(null);
+      Globals.setCenterTrace(null);
     }
   }
   if (showAxes) {
-    const context = getContext();
+    const context = Globals.getContext();
     const originX =
-        Math.round(getScreenWidth() / 2 - getCenterX() / getPosFac());
+        Math.round(Globals.getScreenWidth() / 2 - Globals.getCenterX() / Globals.getPosFac());
     const originY =
-        Math.round(getScreenHeight() / 2 - getCenterY() / getPosFac());
+        Math.round(Globals.getScreenHeight() / 2 - Globals.getCenterY() / Globals.getPosFac());
     context.strokeStyle = '#666666';
     context.beginPath();
     context.moveTo(0, originY);
-    context.lineTo(getScreenWidth(), originY);
+    context.lineTo(Globals.getScreenWidth(), originY);
     context.moveTo(originX, 0);
-    context.lineTo(originX, getScreenHeight());
+    context.lineTo(originX, Globals.getScreenHeight());
     context.stroke();
   }
   for (let i = 0; i < planets.length; ++i) {
@@ -227,8 +227,8 @@ function update(timestamp) {
 }
 
 function updatePlanets() {
-  const context = getContext();
-  context.clearRect(0, 0, getScreenWidth(), getScreenHeight());
+  const context = Globals.getContext();
+  context.clearRect(0, 0, Globals.getScreenWidth(), Globals.getScreenHeight());
   const res = new Array(planets.length);
   for (let i = 0; i < planets.length; ++i) {
     function deriv(t, cond) {
