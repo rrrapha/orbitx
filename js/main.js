@@ -56,17 +56,11 @@ function updateScaleHandler() {
   setSizeFac(500 / scale);
 }
 
-/*
- * This is the callback function from the js event listener (slider.oninput)
- */
 function updateZoomHandler(event) {
   zoomValue = parseInt(event.target.value);
   updateZoom();
 }
 
-/*
- * This function is called from updateZoomHandler() and zoomCallback()
- */
 function updateZoom() {
   document.getElementById('zoom-num').textContent = zoomValue;
   setPosFac(50 / Math.pow(1.1, zoomValue));
@@ -149,9 +143,6 @@ function init() {
 
 let zoomValue = 50;
 
-/*
- * This is the callback function from the Ui class
- */
 function zoomCallback(delta, offsetX, offsetY, shift) {
   if (shift) {
     const slider = document.getElementById('scale-slider');
