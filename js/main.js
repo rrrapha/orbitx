@@ -179,6 +179,7 @@ let prevTimestamp;
 let accumulator = 0;
 function update(timestamp) {
   fps();
+  const context = getContext();
   if (prevTimestamp === undefined) {
     prevTimestamp = timestamp;
   }
@@ -201,8 +202,8 @@ function update(timestamp) {
       setCenterTrace(null);
     }
   }
+  context.clearRect(0, 0, getScreenWidth(), getScreenHeight());
   if (showAxes) {
-    const context = getContext();
     const originX =
         Math.round(getScreenWidth() / 2 - getCenterX() / getPosFac());
     const originY =
@@ -227,8 +228,6 @@ function update(timestamp) {
 }
 
 function updatePlanets() {
-  const context = getContext();
-  context.clearRect(0, 0, getScreenWidth(), getScreenHeight());
   const res = new Array(planets.length);
   for (let i = 0; i < planets.length; ++i) {
     function deriv(t, cond) {
