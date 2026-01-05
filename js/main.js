@@ -152,8 +152,10 @@ function zoomCallback(delta, offsetX, offsetY, shift) {
     updateScaleHandler();
     return;
   }
-  const oldX = (offsetX - Globals.getScreenWidth() / 2) * Globals.getPosFac() + Globals.getCenterX();
-  const oldY = (offsetY - Globals.getScreenHeight() / 2) * Globals.getPosFac() + Globals.getCenterY();
+  const oldX = (offsetX - Globals.getScreenWidth() / 2) * Globals.getPosFac() +
+      Globals.getCenterX();
+  const oldY = (offsetY - Globals.getScreenHeight() / 2) * Globals.getPosFac() +
+      Globals.getCenterY();
   const slider = document.getElementById('zoom-slider');
   zoomValue -= delta * 0.01;
   if (zoomValue < slider.min) {
@@ -164,8 +166,10 @@ function zoomCallback(delta, offsetX, offsetY, shift) {
   }
   slider.value = zoomValue;
   updateZoom();
-  const newX = (offsetX - Globals.getScreenWidth() / 2) * Globals.getPosFac() + Globals.getCenterX();
-  const newY = (offsetY - Globals.getScreenHeight() / 2) * Globals.getPosFac() + Globals.getCenterY();
+  const newX = (offsetX - Globals.getScreenWidth() / 2) * Globals.getPosFac() +
+      Globals.getCenterX();
+  const newY = (offsetY - Globals.getScreenHeight() / 2) * Globals.getPosFac() +
+      Globals.getCenterY();
   Globals.setCenterX(Globals.getCenterX() + oldX - newX);
   Globals.setCenterY(Globals.getCenterY() + oldY - newY);
 }
@@ -179,6 +183,7 @@ let prevTimestamp;
 let accumulator = 0;
 function update(timestamp) {
   fps();
+  const context = Globals.getContext();
   if (prevTimestamp === undefined) {
     prevTimestamp = timestamp;
   }
@@ -201,12 +206,14 @@ function update(timestamp) {
       Globals.setCenterTrace(null);
     }
   }
+  context.clearRect(0, 0, Globals.getScreenWidth(), Globals.getScreenHeight());
   if (showAxes) {
-    const context = Globals.getContext();
-    const originX =
-        Math.round(Globals.getScreenWidth() / 2 - Globals.getCenterX() / Globals.getPosFac());
-    const originY =
-        Math.round(Globals.getScreenHeight() / 2 - Globals.getCenterY() / Globals.getPosFac());
+    const originX = Math.round(
+        Globals.getScreenWidth() / 2 -
+        Globals.getCenterX() / Globals.getPosFac());
+    const originY = Math.round(
+        Globals.getScreenHeight() / 2 -
+        Globals.getCenterY() / Globals.getPosFac());
     context.strokeStyle = '#666666';
     context.beginPath();
     context.moveTo(0, originY);
@@ -227,8 +234,6 @@ function update(timestamp) {
 }
 
 function updatePlanets() {
-  const context = Globals.getContext();
-  context.clearRect(0, 0, Globals.getScreenWidth(), Globals.getScreenHeight());
   const res = new Array(planets.length);
   for (let i = 0; i < planets.length; ++i) {
     function deriv(t, cond) {
