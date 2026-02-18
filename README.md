@@ -1,5 +1,9 @@
-# planets
-planets is a program that simulates gravity in two dimensions. It can help to understand how gravity affects celestial bodies.
+# orbitx
+orbitx is a program that simulates gravity in two dimensions. It can help to understand how gravity affects celestial bodies.
+
+Run it in your browser here:
+https://rrrapha.github.io/orbitx/
+
 
 Newton's law of gravity:
 
