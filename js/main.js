@@ -10,6 +10,7 @@ const UNIT_M = 1000000;  // meter
 const UNIT_S = 3600;     // sec
 const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
     Math.pow(UNIT_S, 2) * 5.974 * Math.pow(10, 24);
+const context;
 
 // VARS
 let timer;
@@ -20,7 +21,6 @@ let centerPlanet = null;
 let accurateTraces = false;
 let showLabels = false;
 let showAxes = false;
-const context;
 
 function loadPreset(preset) {
   fetch(preset).then((response) => response.json()).then((json) => {

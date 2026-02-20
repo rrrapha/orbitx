@@ -44,35 +44,35 @@ class Globals {
     return Globals.posFac * 2000;
   }
 
-  static setTraceLength(newTraceLength) {
-    Globals.traceLength = newTraceLength;
+  static setTraceLength(traceLength) {
+    Globals.traceLength = traceLength;
   }
 
-  static setCenterX(newCenterX) {
-    Globals.centerX = newCenterX;
+  static setCenterX(centerX) {
+    Globals.centerX = centerX;
   }
 
-  static setCenterY(newCenterY) {
-    Globals.centerY = newCenterY;
+  static setCenterY(centerY) {
+    Globals.centerY = centerY;
   }
 
-  static setCenterTrace(newCenterTrace) {
-    Globals.centerTrace = newCenterTrace;
+  static setCenterTrace(centerTrace) {
+    Globals.centerTrace = centerTrace;
   }
 
-  static setScreenWidth(newScreenWidth) {
-    Globals.screenWidth = newScreenWidth;
+  static setScreenWidth(screenWidth) {
+    Globals.screenWidth = screenWidth;
   }
 
-  static setScreenHeight(newScreenHeight) {
-    Globals.screenHeight = newScreenHeight;
+  static setScreenHeight(screenHeight) {
+    Globals.screenHeight = screenHeight;
   }
 
-  static setSizeFac(newSizeFac) {
-    Globals.sizeFac = newSizeFac;
+  static setSizeFac(sizeFac) {
+    Globals.sizeFac = sizeFac;
   }
 
-  static setPosFac(newPosFac) {
-    Globals.posFac = newPosFac;
+  static setPosFac(posFac) {
+    Globals.posFac = posFac;
   }
 }
