@@ -10,13 +10,13 @@ const UNIT_M = 1000000;  // meter
 const UNIT_S = 3600;     // sec
 const G = ((6.67428 * Math.pow(10, -11) / Math.pow(UNIT_M, 3))) *
     Math.pow(UNIT_S, 2) * 5.974 * Math.pow(10, 24);
-const context;
 
 // VARS
 let timer;
 let planets = [];
 let simulationDelay;
 let fpsElement;
+let context;
 
 function loadPreset(preset) {
   fetch(preset).then((response) => response.json()).then((json) => {
@@ -189,10 +189,10 @@ function update(timestamp) {
     accumulator -= simulationDelay;
     updatePlanets();
   }
-  if (centerPlanet === null) {
+  if (Settings.centerPlanet === null) {
     Settings.setCenterTrace(null);
   } else {
-    const planet = planets[centerPlanet];
+    const planet = planets[Settings.centerPlanet];
     const pos = planet.pos;
     Settings.setCenterX(pos[0]);
     Settings.setCenterY(pos[1]);
