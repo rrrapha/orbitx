@@ -11,6 +11,10 @@ class Settings {
   static centerY = 0;
   static centerTrace = null;
   static traceLength = 64;
+  static centerPlanet = null;
+  static accurateTraces = false;
+  static showLabels = false;
+  static showAxes = false;
 
   static getTraceLength() {
     return Settings.traceLength;

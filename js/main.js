@@ -17,10 +17,6 @@ let timer;
 let planets = [];
 let simulationDelay;
 let fpsElement;
-let centerPlanet = null;
-let accurateTraces = false;
-let showLabels = false;
-let showAxes = false;
 
 function loadPreset(preset) {
   fetch(preset).then((response) => response.json()).then((json) => {
@@ -83,24 +79,24 @@ function updateTraceHandler() {
 function updateCenterHandler() {
   const value = document.getElementById('center').value;
   if (value === '') {
-    centerPlanet = null;
+    Settings.centerPlanet = null;
     Settings.setCenterX(0);
     Settings.setCenterY(0);
   } else {
-    centerPlanet = Number(value);
+    Settings.centerPlanet = Number(value);
   }
 }
 
 function updateTraceStyleHandler() {
-  accurateTraces = document.getElementById('accurate-traces').checked;
+  Settings.accurateTraces = document.getElementById('accurate-traces').checked;
 }
 
 function updateLabelsEnableHandler() {
-  showLabels = document.getElementById('labels-checkbox').checked;
+  Settings.showLabels = document.getElementById('labels-checkbox').checked;
 }
 
 function updateAxesEnableHandler() {
-  showAxes = document.getElementById('axes-checkbox').checked;
+  Settings.showAxes = document.getElementById('axes-checkbox').checked;
 }
 
 document.addEventListener('DOMContentLoaded', init);
@@ -200,14 +196,14 @@ function update(timestamp) {
     const pos = planet.pos;
     Settings.setCenterX(pos[0]);
     Settings.setCenterY(pos[1]);
-    if (accurateTraces) {
+    if (Settings.accurateTraces) {
       Settings.setCenterTrace(planet.trace);
     } else {
       Settings.setCenterTrace(null);
     }
   }
   context.clearRect(0, 0, Settings.getScreenWidth(), Settings.getScreenHeight());
-  if (showAxes) {
+  if (Settings.showAxes) {
     const originX = Math.round(
         Settings.getScreenWidth() / 2 -
         Settings.getCenterX() / Settings.getPosFac());
@@ -225,7 +221,7 @@ function update(timestamp) {
   for (let i = 0; i < planets.length; ++i) {
     planets[i].draw();
   }
-  if (showLabels) {
+  if (Settings.showLabels) {
     for (let i = 0; i < planets.length; ++i) {
       planets[i].drawLabel();
     }
