@@ -1,13 +1,10 @@
 'use strict';
 
-import {getContext} from './globals.js';
-
 export {circle};
 
 const PI2 = Math.PI * 2;
 
-function circle(x, y, r, fillColor, strokeColor) {
-  const context = getContext();
+function circle(context, x, y, r, fillColor, strokeColor) {
   context.beginPath();
   context.arc(x, y, r, 0, PI2, true);
   context.closePath();
