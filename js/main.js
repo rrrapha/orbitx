@@ -20,12 +20,13 @@ let centerPlanet = null;
 let accurateTraces = false;
 let showLabels = false;
 let showAxes = false;
+const context;
 
 function loadPreset(preset) {
   fetch(preset).then((response) => response.json()).then((json) => {
     planets = json.map(
         ({mass, pos, vel, name, color}) =>
-            new Planet(mass, pos, vel, name, color));
+            new Planet(context, mass, pos, vel, name, color));
     const center = document.getElementById('center');
     while (center.childElementCount > 1) {
       center.removeChild(center.lastElementChild);
@@ -105,7 +106,7 @@ function updateAxesEnableHandler() {
 document.addEventListener('DOMContentLoaded', init);
 function init() {
   const canvas = document.getElementById('canvas');
-  Globals.setContext(canvas.getContext('2d'));
+  context = canvas.getContext('2d');
   resizeHandler();
   fpsElement = document.getElementById('fps');
   const presets = document.getElementById('presets');
@@ -183,7 +184,6 @@ let prevTimestamp;
 let accumulator = 0;
 function update(timestamp) {
   fps();
-  const context = Globals.getContext();
   if (prevTimestamp === undefined) {
     prevTimestamp = timestamp;
   }

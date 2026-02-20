@@ -18,7 +18,7 @@ class Planet {
   speed;
   color;
 
-  constructor(mass, initpos, initdir, name, color) {
+  constructor(context, mass, initpos, initdir, name, color) {
     this.mass = mass;
     this.pos = initpos;
     this.vel = initdir;
@@ -26,7 +26,7 @@ class Planet {
     this.speed = Math.sqrt(initdir[0] * initdir[0] + initdir[1] * initdir[1]);
     this.color = color;
     this.size = Math.pow(mass / ((4 / 3) * Math.PI), 1 / 3);
-    this.context = Globals.getContext();
+    this.context = context;
     for (let i = 0; i < TRACE_LENGTH; i++) {
       this.trace[i] = [initpos[0], initpos[1]];
     }

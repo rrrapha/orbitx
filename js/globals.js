@@ -3,7 +3,6 @@
 export {Globals};
 
 class Globals {
-  static context;
   static screenWidth = 500;
   static screenHeight = 500;
   static sizeFac = 10;
@@ -27,10 +26,6 @@ class Globals {
 
   static getCenterTrace() {
     return Globals.centerTrace;
-  }
-
-  static getContext() {
-    return Globals.context;
   }
 
   static getScreenWidth() {
@@ -63,10 +58,6 @@ class Globals {
 
   static setCenterTrace(newCenterTrace) {
     Globals.centerTrace = newCenterTrace;
-  }
-
-  static setContext(newContext) {
-    Globals.context = newContext;
   }
 
   static setScreenWidth(newScreenWidth) {
