@@ -1,7 +1,7 @@
 'use strict';
 
 import {circle} from './util.js';
-import {Globals} from './globals.js';
+import {Settings} from './settings.js';
 
 export {Planet};
 
@@ -39,10 +39,10 @@ class Planet {
   move(x, y) {
     // move planet to pixel
     this.pos = [
-      (x - Globals.getScreenWidth() / 2) * Globals.getPosFac() +
-          Globals.getCenterX(),
-      (y - Globals.getScreenHeight() / 2) * Globals.getPosFac() +
-          Globals.getCenterY(),
+      (x - Settings.getScreenWidth() / 2) * Settings.getPosFac() +
+          Settings.getCenterX(),
+      (y - Settings.getScreenHeight() / 2) * Settings.getPosFac() +
+          Settings.getCenterY(),
     ];
     this.vel = [0, 0];
     this.speed = 0;
@@ -78,30 +78,30 @@ class Planet {
   draw() {
     circle(
         this.context,
-        (this.pos[0] - Globals.getCenterX()) / Globals.getPosFac() +
-            Globals.getScreenWidth() / 2,
-        (this.pos[1] - Globals.getCenterY()) / Globals.getPosFac() +
-            Globals.getScreenHeight() / 2,
-        this.size / Globals.getSizeFac(), this.color + 'C0', this.color);
-    if (Globals.getTraceLength() < 1) {
+        (this.pos[0] - Settings.getCenterX()) / Settings.getPosFac() +
+            Settings.getScreenWidth() / 2,
+        (this.pos[1] - Settings.getCenterY()) / Settings.getPosFac() +
+            Settings.getScreenHeight() / 2,
+        this.size / Settings.getSizeFac(), this.color + 'C0', this.color);
+    if (Settings.getTraceLength() < 1) {
       return;
     }
     // draw traces
     this.context.strokeStyle = this.color;
     this.context.beginPath();
-    let centerTrace = Globals.getCenterTrace();
+    let centerTrace = Settings.getCenterTrace();
     if (centerTrace === null) {
       centerTrace = Array(TRACE_LENGTH).fill([
-        Globals.getCenterX(), Globals.getCenterY()
+        Settings.getCenterX(), Settings.getCenterY()
       ]);
     }
-    const traceSlice = this.trace.slice(0, Globals.getTraceLength());
+    const traceSlice = this.trace.slice(0, Settings.getTraceLength());
     const trace = traceSlice.map(
         ([p0, p1], i) =>
-            [(p0 - centerTrace[i][0]) / Globals.getPosFac() +
-                 Globals.getScreenWidth() / 2,
-             (p1 - centerTrace[i][1]) / Globals.getPosFac() +
-                 Globals.getScreenHeight() / 2]);
+            [(p0 - centerTrace[i][0]) / Settings.getPosFac() +
+                 Settings.getScreenWidth() / 2,
+             (p1 - centerTrace[i][1]) / Settings.getPosFac() +
+                 Settings.getScreenHeight() / 2]);
     this.context.moveTo(trace[0][0], trace[0][1]);
     for (let i = 1; i < trace.length; i++) {
       this.context.lineTo(trace[i][0], trace[i][1]);
@@ -114,13 +114,13 @@ class Planet {
     this.context.font = '1em "Courier New", monospace';
     this.context.fillStyle = '#EEEEEE';
     this.context.textBaseline = 'hanging';
-    const radius = this.size / Globals.getSizeFac();
+    const radius = this.size / Settings.getSizeFac();
     this.context.fillText(
         this.name,
-        (this.pos[0] - Globals.getCenterX()) / Globals.getPosFac() +
-            Globals.getScreenWidth() / 2 + radius,
-        (this.pos[1] - Globals.getCenterY()) / Globals.getPosFac() +
-            Globals.getScreenHeight() / 2 + radius,
+        (this.pos[0] - Settings.getCenterX()) / Settings.getPosFac() +
+            Settings.getScreenWidth() / 2 + radius,
+        (this.pos[1] - Settings.getCenterY()) / Settings.getPosFac() +
+            Settings.getScreenHeight() / 2 + radius,
     );
   }
 }

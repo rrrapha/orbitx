@@ -3,7 +3,7 @@
 import {Planet} from './planet.js';
 import {Ui} from './ui.js';
 import {Ode} from './ode.js';
-import {Globals} from './globals.js';
+import {Settings} from './settings.js';
 
 // CONSTANTS
 const UNIT_M = 1000000;  // meter
@@ -42,11 +42,11 @@ function loadPreset(preset) {
 }
 
 function resizeHandler() {
-  Globals.setScreenWidth(window.innerWidth);
-  Globals.setScreenHeight(window.innerHeight);
+  Settings.setScreenWidth(window.innerWidth);
+  Settings.setScreenHeight(window.innerHeight);
   const canvas = document.getElementById('canvas');
-  canvas.setAttribute('width', Globals.getScreenWidth());
-  canvas.setAttribute('height', Globals.getScreenHeight());
+  canvas.setAttribute('width', Settings.getScreenWidth());
+  canvas.setAttribute('height', Settings.getScreenHeight());
 }
 
 window.addEventListener('resize', resizeHandler);
@@ -54,7 +54,7 @@ window.addEventListener('resize', resizeHandler);
 function updateScaleHandler() {
   const scale = document.getElementById('scale-slider').value;
   document.getElementById('scale-num').textContent = scale;
-  Globals.setSizeFac(500 / scale);
+  Settings.setSizeFac(500 / scale);
 }
 
 function updateZoomHandler(event) {
@@ -65,7 +65,7 @@ function updateZoomHandler(event) {
 function updateZoom() {
   const zoom = document.getElementById('zoom-slider').value;
   document.getElementById('zoom-num').textContent = zoom;
-  Globals.setPosFac(50 / Math.pow(1.1, zoomValue));
+  Settings.setPosFac(50 / Math.pow(1.1, zoomValue));
 }
 
 function updateTimeHandler() {
@@ -77,15 +77,15 @@ function updateTimeHandler() {
 function updateTraceHandler() {
   const trace = document.getElementById('trace-slider').value;
   document.getElementById('trace-num').textContent = trace;
-  Globals.setTraceLength(parseInt(trace));
+  Settings.setTraceLength(parseInt(trace));
 }
 
 function updateCenterHandler() {
   const value = document.getElementById('center').value;
   if (value === '') {
     centerPlanet = null;
-    Globals.setCenterX(0);
-    Globals.setCenterY(0);
+    Settings.setCenterX(0);
+    Settings.setCenterY(0);
   } else {
     centerPlanet = Number(value);
   }
@@ -153,10 +153,10 @@ function zoomCallback(delta, offsetX, offsetY, shift) {
     updateScaleHandler();
     return;
   }
-  const oldX = (offsetX - Globals.getScreenWidth() / 2) * Globals.getPosFac() +
-      Globals.getCenterX();
-  const oldY = (offsetY - Globals.getScreenHeight() / 2) * Globals.getPosFac() +
-      Globals.getCenterY();
+  const oldX = (offsetX - Settings.getScreenWidth() / 2) * Settings.getPosFac() +
+      Settings.getCenterX();
+  const oldY = (offsetY - Settings.getScreenHeight() / 2) * Settings.getPosFac() +
+      Settings.getCenterY();
   const slider = document.getElementById('zoom-slider');
   zoomValue -= delta * 0.01;
   if (zoomValue < slider.min) {
@@ -167,17 +167,17 @@ function zoomCallback(delta, offsetX, offsetY, shift) {
   }
   slider.value = zoomValue;
   updateZoom();
-  const newX = (offsetX - Globals.getScreenWidth() / 2) * Globals.getPosFac() +
-      Globals.getCenterX();
-  const newY = (offsetY - Globals.getScreenHeight() / 2) * Globals.getPosFac() +
-      Globals.getCenterY();
-  Globals.setCenterX(Globals.getCenterX() + oldX - newX);
-  Globals.setCenterY(Globals.getCenterY() + oldY - newY);
+  const newX = (offsetX - Settings.getScreenWidth() / 2) * Settings.getPosFac() +
+      Settings.getCenterX();
+  const newY = (offsetY - Settings.getScreenHeight() / 2) * Settings.getPosFac() +
+      Settings.getCenterY();
+  Settings.setCenterX(Settings.getCenterX() + oldX - newX);
+  Settings.setCenterY(Settings.getCenterY() + oldY - newY);
 }
 
 function dragCallback(movementX, movementY) {
-  Globals.setCenterX(Globals.getCenterX() - movementX * Globals.getPosFac());
-  Globals.setCenterY(Globals.getCenterY() - movementY * Globals.getPosFac());
+  Settings.setCenterX(Settings.getCenterX() - movementX * Settings.getPosFac());
+  Settings.setCenterY(Settings.getCenterY() - movementY * Settings.getPosFac());
 }
 
 let prevTimestamp;
@@ -194,32 +194,32 @@ function update(timestamp) {
     updatePlanets();
   }
   if (centerPlanet === null) {
-    Globals.setCenterTrace(null);
+    Settings.setCenterTrace(null);
   } else {
     const planet = planets[centerPlanet];
     const pos = planet.pos;
-    Globals.setCenterX(pos[0]);
-    Globals.setCenterY(pos[1]);
+    Settings.setCenterX(pos[0]);
+    Settings.setCenterY(pos[1]);
     if (accurateTraces) {
-      Globals.setCenterTrace(planet.trace);
+      Settings.setCenterTrace(planet.trace);
     } else {
-      Globals.setCenterTrace(null);
+      Settings.setCenterTrace(null);
     }
   }
-  context.clearRect(0, 0, Globals.getScreenWidth(), Globals.getScreenHeight());
+  context.clearRect(0, 0, Settings.getScreenWidth(), Settings.getScreenHeight());
   if (showAxes) {
     const originX = Math.round(
-        Globals.getScreenWidth() / 2 -
-        Globals.getCenterX() / Globals.getPosFac());
+        Settings.getScreenWidth() / 2 -
+        Settings.getCenterX() / Settings.getPosFac());
     const originY = Math.round(
-        Globals.getScreenHeight() / 2 -
-        Globals.getCenterY() / Globals.getPosFac());
+        Settings.getScreenHeight() / 2 -
+        Settings.getCenterY() / Settings.getPosFac());
     context.strokeStyle = '#666666';
     context.beginPath();
     context.moveTo(0, originY);
-    context.lineTo(Globals.getScreenWidth(), originY);
+    context.lineTo(Settings.getScreenWidth(), originY);
     context.moveTo(originX, 0);
-    context.lineTo(originX, Globals.getScreenHeight());
+    context.lineTo(originX, Settings.getScreenHeight());
     context.stroke();
   }
   for (let i = 0; i < planets.length; ++i) {

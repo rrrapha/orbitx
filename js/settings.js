@@ -1,8 +1,8 @@
 'use strict';
 
-export {Globals};
+export {Settings};
 
-class Globals {
+class Settings {
   static screenWidth = 500;
   static screenHeight = 500;
   static sizeFac = 10;
@@ -13,66 +13,66 @@ class Globals {
   static traceLength = 64;
 
   static getTraceLength() {
-    return Globals.traceLength;
+    return Settings.traceLength;
   }
 
   static getCenterX() {
-    return Globals.centerX;
+    return Settings.centerX;
   }
 
   static getCenterY() {
-    return Globals.centerY;
+    return Settings.centerY;
   }
 
   static getCenterTrace() {
-    return Globals.centerTrace;
+    return Settings.centerTrace;
   }
 
   static getScreenWidth() {
-    return Globals.screenWidth;
+    return Settings.screenWidth;
   }
 
   static getScreenHeight() {
-    return Globals.screenHeight;
+    return Settings.screenHeight;
   }
 
   static getSizeFac() {
-    return Globals.sizeFac * Globals.posFac;
+    return Settings.sizeFac * Settings.posFac;
   }
 
   static getPosFac() {
-    return Globals.posFac * 2000;
+    return Settings.posFac * 2000;
   }
 
   static setTraceLength(traceLength) {
-    Globals.traceLength = traceLength;
+    Settings.traceLength = traceLength;
   }
 
   static setCenterX(centerX) {
-    Globals.centerX = centerX;
+    Settings.centerX = centerX;
   }
 
   static setCenterY(centerY) {
-    Globals.centerY = centerY;
+    Settings.centerY = centerY;
   }
 
   static setCenterTrace(centerTrace) {
-    Globals.centerTrace = centerTrace;
+    Settings.centerTrace = centerTrace;
   }
 
   static setScreenWidth(screenWidth) {
-    Globals.screenWidth = screenWidth;
+    Settings.screenWidth = screenWidth;
   }
 
   static setScreenHeight(screenHeight) {
-    Globals.screenHeight = screenHeight;
+    Settings.screenHeight = screenHeight;
   }
 
   static setSizeFac(sizeFac) {
-    Globals.sizeFac = sizeFac;
+    Settings.sizeFac = sizeFac;
   }
 
   static setPosFac(posFac) {
-    Globals.posFac = posFac;
+    Settings.posFac = posFac;
   }
 }
